@@ -766,21 +766,7 @@ interpolateValueFunction <- function(
 
 Prepare $V_1^0(y, B, x)$, $V_2^0(y, B, x)$, $\underline{x}^0(y, B)$, $\overline{x}^0(y, B)$, and $B'^0(y, B, x)$.
 
-1. Assume that no participation constraint is binding, and solve for $B'$ so that the planner's Euler equation holds with equality (note that $\nu$ disappears since participation constraints do not bind):
-$$
-  u'(c_1(y, B, x)) = \beta (1 + r) \sum_{y'} Pr(y') u'(c_1(y', B', x)),
-$$
-where current consumption is determined by
-$$
-  x = \frac{u'(y + (1 + r) B - B' - c_1(y, B, x))}{u'(c_1(y, B, x))}.
-$$
-The next-period consumption is determined by
-$$
-  \tilde{x}(y', B', x) = \frac{u'(y' + (1 + r) B' - B'^{h - 1}(y', B', \tilde{x}(y', B', x)) - c_1(y', B', x))}{u'(c_1(y', B', x))},
-$$
-where $\tilde{x}(y', B', x)$ is derived by updating $x$ with the relative Pareto weight interval, $[\underline{x}^{h - 1}(y', B'), \overline{x}^{h - 1}(y', B')]$.
-Let the derived $B'$ be $\tilde{B}'(y, B, x)$ and temporalilly update $B'^h(y, B, x) = \tilde{B}'(y, B, x)$.
-2. Next, I update $\overline{x}(y, B)$. For this, first solve for $x$ such that the household 1's participation constraint binds with 0 next-period saving:
+1. First, I update $\overline{x}(y, B)$. For this, first solve for $x$ such that the household 1's participation constraint binds with 0 next-period saving:
 $$
   u(c_1(y, B, \overline{x}(y, B))) + \beta \sum_{y'} Pr(y') V_1^{h - 1}(y', 0, \overline{x}(y, B)) = U_1^{aut}(y),
 $$
@@ -788,7 +774,7 @@ where $c_1(y, B, \overline{x}(y, B))$ satisfies
 $$
   \overline{x}(y, B) = \frac{u'(y + (1 + r) B - c_1(y, B, \overline{x}(y, B)))}{u'(c_1(y, B, \overline{x}(y, B)))}.
 $$
-3. To check if the planner's Euler equation is satisfied, calculate
+2. To check if the planner's Euler equation is satisfied, calculate
 $$
   u'(c_1(y, B, \overline{x}(y, B))) - \beta (1 + r) \sum_{y'} Pr(y') u'(c_1(y', 0, \overline{x}(y, B))),
 $$
@@ -802,7 +788,7 @@ $$
 \end{aligned}
 $$
 and update $B'^h(y, B, \overline{x}(y, B))$ and $\overline{x}^h(y, B)$ with the solutions.
-4. Next, I update $\underline{x}(y, B)$ in a similar way. First solve for $x$ such that the household 2's participation constraint binds with 0 next-period saving:
+3. Next, I update $\underline{x}(y, B)$ in a similar way. First solve for $x$ such that the household 2's participation constraint binds with 0 next-period saving:
 $$
   u(c_2(y, B, \underline{x}(y, B))) + \beta \sum_{y'} Pr(y') V_2^{h - 1}(y', 0, \underline{x}(y, B)) = U_2^{aut}(y),
 $$
@@ -810,7 +796,7 @@ where $c_2(y, B, \underline{x}(y, B))$ satisfies
 $$
   \underline{x}(y, B) = \frac{u'(y + (1 + r) B - c_2(y, B, \underline{x}(y, B)))}{u'(c_2(y, B, \underline{x}(y, B)))}.
 $$
-5. To check if the planner's Euler equation is satisfied, calculate
+4. To check if the planner's Euler equation is satisfied, calculate
 $$
   u'(c_1(y, B, \underline{x}(y, B))) - \beta (1 + r) \sum_{y'} Pr(y') u'(c_1(y', 0, \underline{x}(y, B))),
 $$
@@ -824,7 +810,21 @@ $$
 \end{aligned}
 $$
 and update $B'^h(y, B, \underline{x}(y, B))$ and $\underline{x}^h(y, B)$ with the solutions.
-6. For each $(y, B)$, for $x \in [\underline{x}(y, B), \overline{x}(y, B)]$, update values with
+5. For each $(y, B)$, for $x \in [\underline{x}(y, B), \overline{x}(y, B)]$, where no participation constraint binds, update $B'$ by solving the planner's Euler equation holds with equality (note that $\nu$ disappears since participation constraints do not bind):
+$$
+  u'(c_1(y, B, x)) = \beta (1 + r) \sum_{y'} Pr(y') u'(c_1(y', B', x)),
+$$
+where current consumption is determined by
+$$
+  x = \frac{u'(y + (1 + r) B - B' - c_1(y, B, x))}{u'(c_1(y, B, x))}.
+$$
+The next-period consumption is determined by
+$$
+  \tilde{x}(y', B', x) = \frac{u'(y' + (1 + r) B' - B'^{h - 1}(y', B', \tilde{x}(y', B', x)) - c_1(y', B', x))}{u'(c_1(y', B', x))},
+$$
+where $\tilde{x}(y', B', x)$ is derived by updating $x$ with the relative Pareto weight interval, $[\underline{x}^{h - 1}(y', B'), \overline{x}^{h - 1}(y', B')]$.
+Let the derived $B'$ be $\tilde{B}'(y, B, x)$ and temporalilly update $B'^h(y, B, x) = \tilde{B}'(y, B, x)$.
+And update the values with
 $$
 \begin{aligned}
   &V_1^h(y, B, x) = u(c_1(y, B, x)) + \beta \sum_{y'} V_1^{h - 1}(y', B'^{h}(y, B, x), x) \\
@@ -951,8 +951,8 @@ calculateEulerEquationDiff <- function(
       )
       
     }
-    
   )
+  
   return(
     calculateMarginalUtility(
       calculateHH1Consumption(
@@ -990,24 +990,6 @@ calculateEulerEquationDiff <- function(
     )
   )
 }
-
-# calculateEulerEquationDiff(
-#     aggregateIncomeGridPoints[stateIndex],
-#     storageGridPoints[storageIndex],
-#     currentRelativeParetoWeight = 1,
-#     returnOnStorage,
-#     nextPeriodStorage = 0,
-#     aggregateIncomeGridPoints,
-#     relativeParetoWeightsGridPoints,
-#     nextStorageArray,
-#     relativeParetoWeightsBoundsArray,
-#     incomeTransitionProbVec,
-#     numHouseholds,
-#     numStates,
-#     sigma,
-#     beta
-# )
-#   
 
 calculateValue <- function(
     aggregateIncome,
@@ -1088,78 +1070,17 @@ calculatePCDiff <- function(
     )
 }
 
-# calculatePCDiff(
-#     aggregateIncome,
-#     currentStorage = storageGridPoints[storageIndex],
-#     currentRelativeParetoWeight = 1,
-#     returnOnStorage,
-#     nextPeriodStorage = 0,
-#     relativeParetoWeightsGridPoints,
-#     valueArray = valueArrayHH1,
-#     valueAutarky = valueAutarkyHH1,
-#     incomeTransitionProbVec,
-#     numHouseholds,
-#     numStates,
-#     sigma,
-#     beta,
-#     calculateHH1Consumption
-# )
-
 ```
 
 
 ```{r, eval = FALSE}
 
-# (i)
-
 for (stateIndex in seq(1, numStates)) {
   print(stateIndex)
   tic()
   for (storageIndex in seq(1, numStorageGridPoints)) {
-    for (weightIndex in seq(1, numRelativeParetoWeights)) {
-      if (
-       calculateEulerEquationDiff(
-          aggregateIncomeGridPoints[stateIndex],
-          storageGridPoints[storageIndex],
-          relativeParetoWeightsGridPoints[weightIndex],
-          returnOnStorage,
-          0,
-          aggregateIncomeGridPoints,
-          relativeParetoWeightsGridPoints,
-          nextStorageArray,
-          relativeParetoWeightsBoundsArray,
-          incomeTransitionMatrix[stateIndex,],
-          numHouseholds,
-          numStates,
-          sigma,
-          beta
-      ) > 0) {
-        nextStorageArrayNew[stateIndex, weightIndex, storageIndex] <- 0
-      } else {
-        nextStorageArrayNew[stateIndex, weightIndex, storageIndex] <- uniroot(
-          function(x) {calculateEulerEquationDiff(
-            aggregateIncomeGridPoints[stateIndex],
-            storageGridPoints[storageIndex],
-            relativeParetoWeightsGridPoints[weightIndex],
-            returnOnStorage,
-            x,
-            aggregateIncomeGridPoints,
-            relativeParetoWeightsGridPoints,
-            nextStorageArray,
-            relativeParetoWeightsBoundsArray,
-            incomeTransitionMatrix[stateIndex,],
-            numHouseholds,
-            numStates,
-            sigma,
-            beta
-            )
-            },
-          c(0, aggregateIncomeGridPoints[stateIndex] + storageGridPoints[storageIndex] - 1e-12)
-          )$root
-      }
-    }
     
-    # (ii)
+    # (i)
     if (
       calculatePCDiff(
             aggregateIncome,
@@ -1203,8 +1124,7 @@ for (stateIndex in seq(1, numStates)) {
       )$root
     }
     
-    # (iii)
-    
+    # (ii)
     if (
       calculateEulerEquationDiff(
         aggregateIncomeGridPoints[stateIndex],
@@ -1276,7 +1196,6 @@ for (stateIndex in seq(1, numStates)) {
           return(y)
         }
       )$x
-      
       nextStorageArrayNew[
         stateIndex, 
         which.min(abs(
@@ -1287,8 +1206,7 @@ for (stateIndex in seq(1, numStates)) {
       relativeParetoWeightsBoundsArrayNew[2, stateIndex, storageIndex] <- resSolve[2]
     }
     
-    # (iv)
-    
+    # (iii)
     if (
       calculatePCDiff(
         aggregateIncomeGridPoints[stateIndex],
@@ -1332,8 +1250,7 @@ for (stateIndex in seq(1, numStates)) {
       )$root
     }
     
-    # (v)
-    
+    # (iv)
     calculateEulerEquationDiff(
         aggregateIncomeGridPoints[stateIndex],
         storageGridPoints[storageIndex],
@@ -1432,8 +1349,7 @@ for (stateIndex in seq(1, numStates)) {
       relativeParetoWeightsBoundsArrayNew[1, stateIndex, storageIndex] <- resSolve[2]
     }
     
-    # (vi)
-    
+    # (v)
     relativeParetoWeightsLower <- relativeParetoWeightsBoundsArrayNew[1, stateIndex, storageIndex]
     relativeParetoWeightsUpper <- relativeParetoWeightsBoundsArrayNew[2, stateIndex, storageIndex]
     
@@ -1442,6 +1358,46 @@ for (stateIndex in seq(1, numStates)) {
     
     for (weightIndex in seq(relativeParetoWeightsLowerIndex, relativeParetoWeightsUpperIndex)) {
       
+      if (
+       calculateEulerEquationDiff(
+          aggregateIncomeGridPoints[stateIndex],
+          storageGridPoints[storageIndex],
+          relativeParetoWeightsGridPoints[weightIndex],
+          returnOnStorage,
+          0,
+          aggregateIncomeGridPoints,
+          relativeParetoWeightsGridPoints,
+          nextStorageArray,
+          relativeParetoWeightsBoundsArray,
+          incomeTransitionMatrix[stateIndex,],
+          numHouseholds,
+          numStates,
+          sigma,
+          beta
+      ) > 0) {
+        nextStorageArrayNew[stateIndex, weightIndex, storageIndex] <- 0
+      } else {
+        nextStorageArrayNew[stateIndex, weightIndex, storageIndex] <- uniroot(
+          function(x) {calculateEulerEquationDiff(
+            aggregateIncomeGridPoints[stateIndex],
+            storageGridPoints[storageIndex],
+            relativeParetoWeightsGridPoints[weightIndex],
+            returnOnStorage,
+            x,
+            aggregateIncomeGridPoints,
+            relativeParetoWeightsGridPoints,
+            nextStorageArray,
+            relativeParetoWeightsBoundsArray,
+            incomeTransitionMatrix[stateIndex,],
+            numHouseholds,
+            numStates,
+            sigma,
+            beta
+            )
+            },
+          c(0, aggregateIncomeGridPoints[stateIndex] + storageGridPoints[storageIndex] - 1e-12)
+          )$root
+      }
       valueArrayHH1New[stateIndex, weightIndex, storageIndex] <- calculateValue(
         aggregateIncomeGridPoints[stateIndex],
         storageGridPoints[storageIndex],
@@ -1508,6 +1464,21 @@ for (stateIndex in seq(1, numStates)) {
   toc()
 }
 
+diff <- max(c(
+  max(abs(valueArrayHH1New - valueArrayHH1)),
+  max(abs(valueArrayHH2New - valueArrayHH2))
+))
+
+relativeParetoWeightsBoundsArray <- relativeParetoWeightsBoundsArrayNew
+nextStorageArray <- nextStorageArrayNew
+valueArrayHH1 <- valueArrayHH1New
+valueArrayHH2 <- valueArrayHH2New
+
+valueArrayHH1New[1, , 100] %>% plot
+valueArrayHH2New[1, , 100] %>% plot
+nextStorageArrayNew[1, 1, ] %>% plot
+which.min(abs(relativeParetoWeightsBoundsArray[1,1,1] - relativeParetoWeightsGridPoints))
+which.min(abs(relativeParetoWeightsBoundsArray[2,1,1] - relativeParetoWeightsGridPoints))
 
 ```
 
