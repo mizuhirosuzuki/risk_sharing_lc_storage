@@ -849,70 +849,6 @@ $$
 Repeat this until value functions converge.
 I use linear interpoations to interpolate values between grid points in policy functions and value functions.
 
-```{r, eval = FALSE}
-
-consumptionOnRelativeParetoWeightAndStorageGridHH1 <- array(
-  NA, dim = c(numStates, numRelativeParetoWeights, numStorageGridPoints)
-  )
-for (stateIndex in seq(1, numStates)) {
-  for (weightIndex in seq(1, numRelativeParetoWeights)) {
-    consumptionOnRelativeParetoWeightAndStorageGridHH1[stateIndex, weightIndex, ] <- (
-        calculateHH1Consumption(
-        aggregateIncomeGridPoints[stateIndex] + (1 + returnOnStorage) * storageGridPoints,
-        relativeParetoWeightsGridPoints[weightIndex],
-        numHouseholds,
-        sigma
-      )
-    )
-  }
-}
-consumptionOnRelativeParetoWeightAndStorageGridHH2 <- array(
-  NA, dim = c(numStates, numRelativeParetoWeights, numStorageGridPoints)
-  )
-for (stateIndex in seq(1, numStates)) {
-  for (weightIndex in seq(1, numRelativeParetoWeights)) {
-    consumptionOnRelativeParetoWeightAndStorageGridHH2[stateIndex, weightIndex, ] <- (
-        aggregateIncomeGridPoints[stateIndex] + (1 + returnOnStorage) * storageGridPoints - 
-          consumptionOnRelativeParetoWeightAndStorageGridHH1[stateIndex, weightIndex, ]
-      )
-  }
-}
-
-valueArrayHH1 <- (
-  calculateUtility(consumptionOnRelativeParetoWeightAndStorageGridHH1, sigma) / (1 - beta)
-)
-valueArrayHH2 <- (
-  calculateUtility(consumptionOnRelativeParetoWeightAndStorageGridHH2, sigma) / (1 - beta)
-)
-valueArrayHH1New <- valueArrayHH1
-valueArrayHH2New <- valueArrayHH2
-
-```
-
-```{r, eval = FALSE}
-
-relativeParetoWeightsBoundsArray <- array(
-  NA, dim = c(2, numStates, numStorageGridPoints)
-)
-relativeParetoWeightsBoundsArray[1, ,] <- min(relativeParetoWeightsGridPoints)
-relativeParetoWeightsBoundsArray[2, ,] <- max(relativeParetoWeightsGridPoints)
-relativeParetoWeightsBoundsArrayNew <- array(
-  NA, dim = c(2, numStates, numStorageGridPoints)
-)
-
-nextStorageArray <- array(
-  0, dim = c(numStates, numRelativeParetoWeights, numStorageGridPoints)
-  )
-nextStorageArrayNew <- array(
-  0, dim = c(numStates, numRelativeParetoWeights, numStorageGridPoints)
-  )
-
-stateIndex <- 2
-nextStorage <- 0
-storageIndex <- 100
-
-```
-
 ```{r}
 calculateEulerEquationDiff <- function(
     aggregateIncome,
@@ -1072,413 +1008,489 @@ calculatePCDiff <- function(
 
 ```
 
+```{r, eval = FALSE}
+
+consumptionOnRelativeParetoWeightAndStorageGridHH1 <- array(
+  NA, dim = c(numStates, numRelativeParetoWeights, numStorageGridPoints)
+  )
+for (stateIndex in seq(1, numStates)) {
+  for (weightIndex in seq(1, numRelativeParetoWeights)) {
+    consumptionOnRelativeParetoWeightAndStorageGridHH1[stateIndex, weightIndex, ] <- (
+        calculateHH1Consumption(
+        aggregateIncomeGridPoints[stateIndex] + (1 + returnOnStorage) * storageGridPoints,
+        relativeParetoWeightsGridPoints[weightIndex],
+        numHouseholds,
+        sigma
+      )
+    )
+  }
+}
+consumptionOnRelativeParetoWeightAndStorageGridHH2 <- array(
+  NA, dim = c(numStates, numRelativeParetoWeights, numStorageGridPoints)
+  )
+for (stateIndex in seq(1, numStates)) {
+  for (weightIndex in seq(1, numRelativeParetoWeights)) {
+    consumptionOnRelativeParetoWeightAndStorageGridHH2[stateIndex, weightIndex, ] <- (
+        aggregateIncomeGridPoints[stateIndex] + (1 + returnOnStorage) * storageGridPoints - 
+          consumptionOnRelativeParetoWeightAndStorageGridHH1[stateIndex, weightIndex, ]
+      )
+  }
+}
+
+valueArrayHH1 <- (
+  calculateUtility(consumptionOnRelativeParetoWeightAndStorageGridHH1, sigma) / (1 - beta)
+)
+valueArrayHH2 <- (
+  calculateUtility(consumptionOnRelativeParetoWeightAndStorageGridHH2, sigma) / (1 - beta)
+)
+valueArrayHH1New <- valueArrayHH1
+valueArrayHH2New <- valueArrayHH2
+
+```
 
 ```{r, eval = FALSE}
 
-for (stateIndex in seq(1, numStates)) {
-  print(stateIndex)
-  tic()
-  for (storageIndex in seq(1, numStorageGridPoints)) {
-    
-    # (i)
-    if (
-      calculatePCDiff(
-            aggregateIncome,
-            currentStorage = storageGridPoints[storageIndex],
-            currentRelativeParetoWeight = min(relativeParetoWeightsGridPoints),
-            returnOnStorage,
-            nextPeriodStorage = 0,
-            relativeParetoWeightsGridPoints,
-            valueArray = valueArrayHH1,
-            valueAutarky = valueAutarkyHH1,
-            incomeTransitionProbVec,
-            numHouseholds,
-            numStates,
-            sigma,
-            beta,
-            calculateHH1Consumption
-          ) > 0
-    ) {
-      relativeParetoWeightsUpperTmp <- max(relativeParetoWeightsGridPoints)
-    } else {
-      relativeParetoWeightsUpperTmp <- uniroot(
-        function(x) {
-          calculatePCDiff(
-            aggregateIncome,
-            currentStorage = storageGridPoints[storageIndex],
-            currentRelativeParetoWeight = x,
-            returnOnStorage,
-            nextPeriodStorage = 0,
-            relativeParetoWeightsGridPoints,
-            valueArray = valueArrayHH1,
-            valueAutarky = valueAutarkyHH1,
-            incomeTransitionProbVec,
-            numHouseholds,
-            numStates,
-            sigma,
-            beta,
-            calculateHH1Consumption
-          )
-        },
-        c(min(relativeParetoWeightsGridPoints), max(relativeParetoWeightsGridPoints))
-      )$root
-    }
-    
-    # (ii)
-    if (
-      calculateEulerEquationDiff(
-        aggregateIncomeGridPoints[stateIndex],
-        storageGridPoints[storageIndex],
-        currentRelativeParetoWeight = relativeParetoWeightsUpperTmp,
-        returnOnStorage,
-        nextPeriodStorage = 0,
-        aggregateIncomeGridPoints,
-        relativeParetoWeightsGridPoints,
-        nextStorageArray,
-        relativeParetoWeightsBoundsArray,
-        incomeTransitionProbVec,
-        numHouseholds,
-        numStates,
-        sigma,
-        beta
-        ) >= 0
-    ) {
-      nextStorageArrayNew[
-        stateIndex, 
-        which.min(abs(
-          relativeParetoWeightsUpperTmp - relativeParetoWeightsGridPoints
-          )), 
-        storageIndex
-        ] <- 0
-      relativeParetoWeightsBoundsArrayNew[2, stateIndex, storageIndex] <- relativeParetoWeightsUpperTmp
-    } else {
-      resSolve <- nleqslv(
-        c(0, 1),
-        function(x) {
-          nextPeriodStorage <- x[1]
-          relativeParetoWeightUpperBound <- x[2]
-          y <- numeric(2)
-          
-          y[1] <- calculateEulerEquationDiff(
-            aggregateIncomeGridPoints[stateIndex],
-            storageGridPoints[storageIndex],
-            currentRelativeParetoWeight = relativeParetoWeightUpperBound,
-            returnOnStorage,
-            nextPeriodStorage = nextPeriodStorage,
-            aggregateIncomeGridPoints,
-            relativeParetoWeightsGridPoints,
-            nextStorageArray,
-            relativeParetoWeightsBoundsArray,
-            incomeTransitionProbVec,
-            numHouseholds,
-            numStates,
-            sigma,
-            beta
-            )
-          
-          y[2] <- calculatePCDiff(
-            aggregateIncomeGridPoints[stateIndex],
-            storageGridPoints[storageIndex],
-            currentRelativeParetoWeight = relativeParetoWeightUpperBound,
-            returnOnStorage,
-            nextPeriodStorage = nextPeriodStorage,
-            relativeParetoWeightsGridPoints,
-            valueArray = valueArrayHH1,
-            valueAutarky = valueAutarkyHH1,
-            incomeTransitionProbVec,
-            numHouseholds,
-            numStates,
-            sigma,
-            beta,
-            calculateHH1Consumption
-            )
-          
-          return(y)
-        }
-      )$x
-      nextStorageArrayNew[
-        stateIndex, 
-        which.min(abs(
-          resSolve[2] - relativeParetoWeightsGridPoints
-          )), 
-        storageIndex
-        ] <- resSolve[1]
-      relativeParetoWeightsBoundsArrayNew[2, stateIndex, storageIndex] <- resSolve[2]
-    }
-    
-    # (iii)
-    if (
-      calculatePCDiff(
-        aggregateIncomeGridPoints[stateIndex],
-        currentStorage = storageGridPoints[storageIndex],
-        currentRelativeParetoWeight = min(relativeParetoWeightsGridPoints),
-        returnOnStorage,
-        nextPeriodStorage = 0,
-        relativeParetoWeightsGridPoints,
-        valueArray = valueArrayHH2,
-        valueAutarky = valueAutarkyHH2,
-        incomeTransitionProbVec,
-        numHouseholds,
-        numStates,
-        sigma,
-        beta,
-        calculateHH2Consumption
-      ) > 0
-    ) {
-      relativeParetoWeightsLowerTmp <- min(relativeParetoWeightsGridPoints)
-    } else {
-      relativeParetoWeightsLowerTmp <- uniroot(
-        function(x) {
-          calculatePCDiff(
-            aggregateIncomeGridPoints[stateIndex],
-            currentStorage = storageGridPoints[storageIndex],
-            currentRelativeParetoWeight = x,
-            returnOnStorage,
-            nextPeriodStorage = 0,
-            relativeParetoWeightsGridPoints,
-            valueArray = valueArrayHH2,
-            valueAutarky = valueAutarkyHH2,
-            incomeTransitionProbVec,
-            numHouseholds,
-            numStates,
-            sigma,
-            beta,
-            calculateHH2Consumption
-          )
-        },
-        c(min(relativeParetoWeightsGridPoints), max(relativeParetoWeightsGridPoints))
-      )$root
-    }
-    
-    # (iv)
-    calculateEulerEquationDiff(
-        aggregateIncomeGridPoints[stateIndex],
-        storageGridPoints[storageIndex],
-        currentRelativeParetoWeight = relativeParetoWeightsLowerTmp,
-        returnOnStorage,
-        nextPeriodStorage = 0,
-        aggregateIncomeGridPoints,
-        relativeParetoWeightsGridPoints,
-        nextStorageArray,
-        relativeParetoWeightsBoundsArray,
-        incomeTransitionProbVec,
-        numHouseholds,
-        numStates,
-        sigma,
-        beta
-    ) 
-    
-    if (
-      calculateEulerEquationDiff(
-        aggregateIncomeGridPoints[stateIndex],
-        storageGridPoints[storageIndex],
-        currentRelativeParetoWeight = relativeParetoWeightsLowerTmp,
-        returnOnStorage,
-        nextPeriodStorage = 0,
-        aggregateIncomeGridPoints,
-        relativeParetoWeightsGridPoints,
-        nextStorageArray,
-        relativeParetoWeightsBoundsArray,
-        incomeTransitionProbVec,
-        numHouseholds,
-        numStates,
-        sigma,
-        beta
-        ) >= 0
-    ) {
-      nextStorageArrayNew[
-        stateIndex, 
-        which.min(abs(
-          relativeParetoWeightsLowerTmp - relativeParetoWeightsGridPoints
-          )), 
-        storageIndex
-        ] <- 0
-      relativeParetoWeightsBoundsArrayNew[1, stateIndex, storageIndex] <- relativeParetoWeightsLowerTmp
-    } else {
-      resSolve <- nleqslv(
-        c(0, 1),
-        function(x) {
-          nextPeriodStorage <- x[1]
-          relativeParetoWeightLowerBound <- x[2]
-          y <- numeric(2)
-          
-          y[1] <- calculateEulerEquationDiff(
-            aggregateIncomeGridPoints[stateIndex],
-            storageGridPoints[storageIndex],
-            currentRelativeParetoWeight = relativeParetoWeightLowerBound,
-            returnOnStorage,
-            nextPeriodStorage = nextPeriodStorage,
-            aggregateIncomeGridPoints,
-            relativeParetoWeightsGridPoints,
-            nextStorageArray,
-            relativeParetoWeightsBoundsArray,
-            incomeTransitionProbVec,
-            numHouseholds,
-            numStates,
-            sigma,
-            beta
-            )
-          
-          y[2] <- calculatePCDiff(
-            aggregateIncomeGridPoints[stateIndex],
-            storageGridPoints[storageIndex],
-            currentRelativeParetoWeight = relativeParetoWeightLowerBound,
-            returnOnStorage,
-            nextPeriodStorage = nextPeriodStorage,
-            relativeParetoWeightsGridPoints,
-            valueArray = valueArrayHH2,
-            valueAutarky = valueAutarkyHH2,
-            incomeTransitionProbVec,
-            numHouseholds,
-            numStates,
-            sigma,
-            beta,
-            calculateHH2Consumption
-            )
-          
-          return(y)
-        }
-      )$x
-      nextStorageArrayNew[
-        stateIndex, 
-        which.min(abs(
-          resSolve[2] - relativeParetoWeightsGridPoints
-          )), 
-        storageIndex
-        ] <- resSolve[1]
-      relativeParetoWeightsBoundsArrayNew[1, stateIndex, storageIndex] <- resSolve[2]
-    }
-    
-    # (v)
-    relativeParetoWeightsLower <- relativeParetoWeightsBoundsArrayNew[1, stateIndex, storageIndex]
-    relativeParetoWeightsUpper <- relativeParetoWeightsBoundsArrayNew[2, stateIndex, storageIndex]
-    
-    relativeParetoWeightsLowerIndex <- which(relativeParetoWeightsGridPoints > relativeParetoWeightsLower)[1]
-    relativeParetoWeightsUpperIndex <- rev(which(relativeParetoWeightsGridPoints < relativeParetoWeightsUpper))[1]
-    
-    for (weightIndex in seq(relativeParetoWeightsLowerIndex, relativeParetoWeightsUpperIndex)) {
+relativeParetoWeightsBoundsArray <- array(
+  NA, dim = c(2, numStates, numStorageGridPoints)
+)
+relativeParetoWeightsBoundsArray[1, ,] <- min(relativeParetoWeightsGridPoints)
+relativeParetoWeightsBoundsArray[2, ,] <- max(relativeParetoWeightsGridPoints)
+relativeParetoWeightsBoundsArrayNew <- array(
+  NA, dim = c(2, numStates, numStorageGridPoints)
+)
+
+nextStorageArray <- array(
+  0, dim = c(numStates, numRelativeParetoWeights, numStorageGridPoints)
+  )
+nextStorageArrayNew <- array(
+  0, dim = c(numStates, numRelativeParetoWeights, numStorageGridPoints)
+  )
+
+```
+
+
+```{r, eval = FALSE}
+
+diff <- 1
+iter <- 1
+while ((diff > 1e-8) & (iter < 100)) {
+  
+  for (stateIndex in seq(1, numStates)) {
+    print(stateIndex)
+    tic()
+    for (storageIndex in seq(1, numStorageGridPoints)) {
       
+      # (i)
       if (
-       calculateEulerEquationDiff(
+        calculatePCDiff(
+              aggregateIncome,
+              currentStorage = storageGridPoints[storageIndex],
+              currentRelativeParetoWeight = min(relativeParetoWeightsGridPoints),
+              returnOnStorage,
+              nextPeriodStorage = 0,
+              relativeParetoWeightsGridPoints,
+              valueArray = valueArrayHH1,
+              valueAutarky = valueAutarkyHH1,
+              incomeTransitionProbVec,
+              numHouseholds,
+              numStates,
+              sigma,
+              beta,
+              calculateHH1Consumption
+            ) > 0
+      ) {
+        relativeParetoWeightsUpperTmp <- max(relativeParetoWeightsGridPoints)
+      } else {
+        relativeParetoWeightsUpperTmp <- uniroot(
+          function(x) {
+            calculatePCDiff(
+              aggregateIncome,
+              currentStorage = storageGridPoints[storageIndex],
+              currentRelativeParetoWeight = x,
+              returnOnStorage,
+              nextPeriodStorage = 0,
+              relativeParetoWeightsGridPoints,
+              valueArray = valueArrayHH1,
+              valueAutarky = valueAutarkyHH1,
+              incomeTransitionProbVec,
+              numHouseholds,
+              numStates,
+              sigma,
+              beta,
+              calculateHH1Consumption
+            )
+          },
+          c(min(relativeParetoWeightsGridPoints), max(relativeParetoWeightsGridPoints))
+        )$root
+      }
+      
+      # (ii)
+      if (
+        calculateEulerEquationDiff(
           aggregateIncomeGridPoints[stateIndex],
           storageGridPoints[storageIndex],
-          relativeParetoWeightsGridPoints[weightIndex],
+          currentRelativeParetoWeight = relativeParetoWeightsUpperTmp,
           returnOnStorage,
-          0,
+          nextPeriodStorage = 0,
           aggregateIncomeGridPoints,
           relativeParetoWeightsGridPoints,
           nextStorageArray,
           relativeParetoWeightsBoundsArray,
-          incomeTransitionMatrix[stateIndex,],
+          incomeTransitionProbVec,
           numHouseholds,
           numStates,
           sigma,
           beta
-      ) > 0) {
-        nextStorageArrayNew[stateIndex, weightIndex, storageIndex] <- 0
+          ) >= 0
+      ) {
+        nextStorageArrayNew[
+          stateIndex, 
+          which.min(abs(
+            relativeParetoWeightsUpperTmp - relativeParetoWeightsGridPoints
+            )), 
+          storageIndex
+          ] <- 0
+        relativeParetoWeightsBoundsArrayNew[2, stateIndex, storageIndex] <- relativeParetoWeightsUpperTmp
       } else {
-        nextStorageArrayNew[stateIndex, weightIndex, storageIndex] <- uniroot(
-          function(x) {calculateEulerEquationDiff(
+        resSolve <- nleqslv(
+          c(0, 1),
+          function(x) {
+            nextPeriodStorage <- x[1]
+            relativeParetoWeightUpperBound <- x[2]
+            y <- numeric(2)
+            
+            y[1] <- calculateEulerEquationDiff(
+              aggregateIncomeGridPoints[stateIndex],
+              storageGridPoints[storageIndex],
+              currentRelativeParetoWeight = relativeParetoWeightUpperBound,
+              returnOnStorage,
+              nextPeriodStorage = nextPeriodStorage,
+              aggregateIncomeGridPoints,
+              relativeParetoWeightsGridPoints,
+              nextStorageArray,
+              relativeParetoWeightsBoundsArray,
+              incomeTransitionProbVec,
+              numHouseholds,
+              numStates,
+              sigma,
+              beta
+              )
+            
+            y[2] <- calculatePCDiff(
+              aggregateIncomeGridPoints[stateIndex],
+              storageGridPoints[storageIndex],
+              currentRelativeParetoWeight = relativeParetoWeightUpperBound,
+              returnOnStorage,
+              nextPeriodStorage = nextPeriodStorage,
+              relativeParetoWeightsGridPoints,
+              valueArray = valueArrayHH1,
+              valueAutarky = valueAutarkyHH1,
+              incomeTransitionProbVec,
+              numHouseholds,
+              numStates,
+              sigma,
+              beta,
+              calculateHH1Consumption
+              )
+            
+            return(y)
+          }
+        )$x
+        nextStorageArrayNew[
+          stateIndex, 
+          which.min(abs(
+            resSolve[2] - relativeParetoWeightsGridPoints
+            )), 
+          storageIndex
+          ] <- resSolve[1]
+        relativeParetoWeightsBoundsArrayNew[2, stateIndex, storageIndex] <- resSolve[2]
+      }
+      
+      # (iii)
+      if (
+        calculatePCDiff(
+          aggregateIncomeGridPoints[stateIndex],
+          currentStorage = storageGridPoints[storageIndex],
+          currentRelativeParetoWeight = min(relativeParetoWeightsGridPoints),
+          returnOnStorage,
+          nextPeriodStorage = 0,
+          relativeParetoWeightsGridPoints,
+          valueArray = valueArrayHH2,
+          valueAutarky = valueAutarkyHH2,
+          incomeTransitionProbVec,
+          numHouseholds,
+          numStates,
+          sigma,
+          beta,
+          calculateHH2Consumption
+        ) > 0
+      ) {
+        relativeParetoWeightsLowerTmp <- min(relativeParetoWeightsGridPoints)
+      } else {
+        relativeParetoWeightsLowerTmp <- uniroot(
+          function(x) {
+            calculatePCDiff(
+              aggregateIncomeGridPoints[stateIndex],
+              currentStorage = storageGridPoints[storageIndex],
+              currentRelativeParetoWeight = x,
+              returnOnStorage,
+              nextPeriodStorage = 0,
+              relativeParetoWeightsGridPoints,
+              valueArray = valueArrayHH2,
+              valueAutarky = valueAutarkyHH2,
+              incomeTransitionProbVec,
+              numHouseholds,
+              numStates,
+              sigma,
+              beta,
+              calculateHH2Consumption
+            )
+          },
+          c(min(relativeParetoWeightsGridPoints), max(relativeParetoWeightsGridPoints))
+        )$root
+      }
+      
+      # (iv)
+      calculateEulerEquationDiff(
+          aggregateIncomeGridPoints[stateIndex],
+          storageGridPoints[storageIndex],
+          currentRelativeParetoWeight = relativeParetoWeightsLowerTmp,
+          returnOnStorage,
+          nextPeriodStorage = 0,
+          aggregateIncomeGridPoints,
+          relativeParetoWeightsGridPoints,
+          nextStorageArray,
+          relativeParetoWeightsBoundsArray,
+          incomeTransitionProbVec,
+          numHouseholds,
+          numStates,
+          sigma,
+          beta
+      ) 
+      
+      if (
+        calculateEulerEquationDiff(
+          aggregateIncomeGridPoints[stateIndex],
+          storageGridPoints[storageIndex],
+          currentRelativeParetoWeight = relativeParetoWeightsLowerTmp,
+          returnOnStorage,
+          nextPeriodStorage = 0,
+          aggregateIncomeGridPoints,
+          relativeParetoWeightsGridPoints,
+          nextStorageArray,
+          relativeParetoWeightsBoundsArray,
+          incomeTransitionProbVec,
+          numHouseholds,
+          numStates,
+          sigma,
+          beta
+          ) >= 0
+      ) {
+        nextStorageArrayNew[
+          stateIndex, 
+          which.min(abs(
+            relativeParetoWeightsLowerTmp - relativeParetoWeightsGridPoints
+            )), 
+          storageIndex
+          ] <- 0
+        relativeParetoWeightsBoundsArrayNew[1, stateIndex, storageIndex] <- relativeParetoWeightsLowerTmp
+      } else {
+        resSolve <- nleqslv(
+          c(0, 1),
+          function(x) {
+            nextPeriodStorage <- x[1]
+            relativeParetoWeightLowerBound <- x[2]
+            y <- numeric(2)
+            
+            y[1] <- calculateEulerEquationDiff(
+              aggregateIncomeGridPoints[stateIndex],
+              storageGridPoints[storageIndex],
+              currentRelativeParetoWeight = relativeParetoWeightLowerBound,
+              returnOnStorage,
+              nextPeriodStorage = nextPeriodStorage,
+              aggregateIncomeGridPoints,
+              relativeParetoWeightsGridPoints,
+              nextStorageArray,
+              relativeParetoWeightsBoundsArray,
+              incomeTransitionProbVec,
+              numHouseholds,
+              numStates,
+              sigma,
+              beta
+              )
+            
+            y[2] <- calculatePCDiff(
+              aggregateIncomeGridPoints[stateIndex],
+              storageGridPoints[storageIndex],
+              currentRelativeParetoWeight = relativeParetoWeightLowerBound,
+              returnOnStorage,
+              nextPeriodStorage = nextPeriodStorage,
+              relativeParetoWeightsGridPoints,
+              valueArray = valueArrayHH2,
+              valueAutarky = valueAutarkyHH2,
+              incomeTransitionProbVec,
+              numHouseholds,
+              numStates,
+              sigma,
+              beta,
+              calculateHH2Consumption
+              )
+            
+            return(y)
+          }
+        )$x
+        nextStorageArrayNew[
+          stateIndex, 
+          which.min(abs(
+            resSolve[2] - relativeParetoWeightsGridPoints
+            )), 
+          storageIndex
+          ] <- resSolve[1]
+        relativeParetoWeightsBoundsArrayNew[1, stateIndex, storageIndex] <- resSolve[2]
+      }
+      
+      # (v)
+      relativeParetoWeightsLower <- relativeParetoWeightsBoundsArrayNew[1, stateIndex, storageIndex]
+      relativeParetoWeightsUpper <- relativeParetoWeightsBoundsArrayNew[2, stateIndex, storageIndex]
+      
+      relativeParetoWeightsLowerIndex <- which(relativeParetoWeightsGridPoints >= relativeParetoWeightsLower)[1]
+      relativeParetoWeightsUpperIndex <- rev(which(relativeParetoWeightsGridPoints <= relativeParetoWeightsUpper))[1]
+      
+      if (relativeParetoWeightsLowerIndex <= relativeParetoWeightsUpperIndex) {
+        for (weightIndex in seq(relativeParetoWeightsLowerIndex, relativeParetoWeightsUpperIndex)) {
+          
+          if (
+           calculateEulerEquationDiff(
+              aggregateIncomeGridPoints[stateIndex],
+              storageGridPoints[storageIndex],
+              relativeParetoWeightsGridPoints[weightIndex],
+              returnOnStorage,
+              0,
+              aggregateIncomeGridPoints,
+              relativeParetoWeightsGridPoints,
+              nextStorageArray,
+              relativeParetoWeightsBoundsArray,
+              incomeTransitionMatrix[stateIndex,],
+              numHouseholds,
+              numStates,
+              sigma,
+              beta
+          ) > 0) {
+            nextStorageArrayNew[stateIndex, weightIndex, storageIndex] <- 0
+          } else {
+            nextStorageArrayNew[stateIndex, weightIndex, storageIndex] <- uniroot(
+              function(x) {calculateEulerEquationDiff(
+                aggregateIncomeGridPoints[stateIndex],
+                storageGridPoints[storageIndex],
+                relativeParetoWeightsGridPoints[weightIndex],
+                returnOnStorage,
+                x,
+                aggregateIncomeGridPoints,
+                relativeParetoWeightsGridPoints,
+                nextStorageArray,
+                relativeParetoWeightsBoundsArray,
+                incomeTransitionMatrix[stateIndex,],
+                numHouseholds,
+                numStates,
+                sigma,
+                beta
+                )
+                },
+              c(0, aggregateIncomeGridPoints[stateIndex] + storageGridPoints[storageIndex] - 1e-12)
+              )$root
+          }
+          valueArrayHH1New[stateIndex, weightIndex, storageIndex] <- calculateValue(
             aggregateIncomeGridPoints[stateIndex],
             storageGridPoints[storageIndex],
-            relativeParetoWeightsGridPoints[weightIndex],
+            currentRelativeParetoWeight = relativeParetoWeightsGridPoints[weightIndex],
             returnOnStorage,
-            x,
-            aggregateIncomeGridPoints,
+            nextPeriodStorage = nextStorageArrayNew[stateIndex, weightIndex, storageIndex],
             relativeParetoWeightsGridPoints,
-            nextStorageArray,
-            relativeParetoWeightsBoundsArray,
-            incomeTransitionMatrix[stateIndex,],
+            valueArrayHH1,
+            incomeTransitionProbVec,
             numHouseholds,
             numStates,
             sigma,
-            beta
+            beta,
+            calculateHH1Consumption
             )
-            },
-          c(0, aggregateIncomeGridPoints[stateIndex] + storageGridPoints[storageIndex] - 1e-12)
-          )$root
+          
+          valueArrayHH2New[stateIndex, weightIndex, storageIndex] <- calculateValue(
+            aggregateIncomeGridPoints[stateIndex],
+            storageGridPoints[storageIndex],
+            currentRelativeParetoWeight = relativeParetoWeightsGridPoints[weightIndex],
+            returnOnStorage,
+            nextPeriodStorage = nextStorageArrayNew[stateIndex, weightIndex, storageIndex],
+            relativeParetoWeightsGridPoints,
+            valueArrayHH2,
+            incomeTransitionProbVec,
+            numHouseholds,
+            numStates,
+            sigma,
+            beta,
+            calculateHH2Consumption
+            )
+        }
+        
+        valueArrayHH1New[
+          stateIndex,
+          relativeParetoWeightsGridPoints <= relativeParetoWeightsLower,
+          storageIndex
+          ] <- valueArrayHH1New[
+            stateIndex,
+            relativeParetoWeightsLowerIndex,
+            storageIndex
+          ] 
+        valueArrayHH1New[
+          stateIndex,
+          relativeParetoWeightsGridPoints >= relativeParetoWeightsUpper,
+          storageIndex
+          ] <- valueAutarkyHH1[stateIndex]
+        
+        valueArrayHH2New[
+          stateIndex,
+          relativeParetoWeightsGridPoints >= relativeParetoWeightsUpper,
+          storageIndex
+          ] <- valueArrayHH2New[
+            stateIndex,
+            relativeParetoWeightsUpperIndex,
+            storageIndex
+          ] 
+        valueArrayHH2New[
+          stateIndex,
+          relativeParetoWeightsGridPoints <= relativeParetoWeightsLower,
+          storageIndex
+          ] <- valueAutarkyHH2[stateIndex]
+          
+      } else {
+        valueArrayHH1New[
+          stateIndex,
+          ,
+          storageIndex
+          ] <- valueAutarkyHH1[stateIndex]
+        valueArrayHH2New[
+          stateIndex,
+          ,
+          storageIndex
+          ] <- valueAutarkyHH2[stateIndex]
       }
-      valueArrayHH1New[stateIndex, weightIndex, storageIndex] <- calculateValue(
-        aggregateIncomeGridPoints[stateIndex],
-        storageGridPoints[storageIndex],
-        currentRelativeParetoWeight = relativeParetoWeightsGridPoints[weightIndex],
-        returnOnStorage,
-        nextPeriodStorage = nextStorageArrayNew[stateIndex, weightIndex, storageIndex],
-        relativeParetoWeightsGridPoints,
-        valueArrayHH1,
-        incomeTransitionProbVec,
-        numHouseholds,
-        numStates,
-        sigma,
-        beta,
-        calculateHH1Consumption
-        )
-      
-      valueArrayHH2New[stateIndex, weightIndex, storageIndex] <- calculateValue(
-        aggregateIncomeGridPoints[stateIndex],
-        storageGridPoints[storageIndex],
-        currentRelativeParetoWeight = relativeParetoWeightsGridPoints[weightIndex],
-        returnOnStorage,
-        nextPeriodStorage = nextStorageArrayNew[stateIndex, weightIndex, storageIndex],
-        relativeParetoWeightsGridPoints,
-        valueArrayHH2,
-        incomeTransitionProbVec,
-        numHouseholds,
-        numStates,
-        sigma,
-        beta,
-        calculateHH2Consumption
-        )
     }
-    
-    valueArrayHH1New[
-      stateIndex,
-      relativeParetoWeightsGridPoints <= relativeParetoWeightsLower,
-      storageIndex
-      ] <- valueArrayHH1New[
-        stateIndex,
-        relativeParetoWeightsLowerIndex,
-        storageIndex
-      ] 
-    valueArrayHH1New[
-      stateIndex,
-      relativeParetoWeightsGridPoints >= relativeParetoWeightsUpper,
-      storageIndex
-      ] <- valueAutarkyHH1[stateIndex]
-    
-    valueArrayHH2New[
-      stateIndex,
-      relativeParetoWeightsGridPoints >= relativeParetoWeightsUpper,
-      storageIndex
-      ] <- valueArrayHH2New[
-        stateIndex,
-        relativeParetoWeightsUpperIndex,
-        storageIndex
-      ] 
-    valueArrayHH2New[
-      stateIndex,
-      relativeParetoWeightsGridPoints <= relativeParetoWeightsLower,
-      storageIndex
-      ] <- valueAutarkyHH2[stateIndex]
+    toc()
   }
-  toc()
+  
+  diff <- max(c(
+    max(abs(valueArrayHH1New - valueArrayHH1)),
+    max(abs(valueArrayHH2New - valueArrayHH2))
+  ))
+  
+  relativeParetoWeightsBoundsArray <- relativeParetoWeightsBoundsArrayNew
+  nextStorageArray <- nextStorageArrayNew
+  valueArrayHH1 <- valueArrayHH1New
+  valueArrayHH2 <- valueArrayHH2New
+  iter <- iter + 1
+  print(diff)
+  print(iter)
 }
-
-diff <- max(c(
-  max(abs(valueArrayHH1New - valueArrayHH1)),
-  max(abs(valueArrayHH2New - valueArrayHH2))
-))
-
-relativeParetoWeightsBoundsArray <- relativeParetoWeightsBoundsArrayNew
-nextStorageArray <- nextStorageArrayNew
-valueArrayHH1 <- valueArrayHH1New
-valueArrayHH2 <- valueArrayHH2New
-
-valueArrayHH1New[1, , 100] %>% plot
-valueArrayHH2New[1, , 100] %>% plot
-nextStorageArrayNew[1, 1, ] %>% plot
-which.min(abs(relativeParetoWeightsBoundsArray[1,1,1] - relativeParetoWeightsGridPoints))
-which.min(abs(relativeParetoWeightsBoundsArray[2,1,1] - relativeParetoWeightsGridPoints))
 
 ```
 
