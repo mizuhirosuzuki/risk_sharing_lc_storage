@@ -8,9 +8,10 @@ book:
   date: ""
   chapters:
     - index.qmd
-    - intro.qmd
-    - summary.qmd
-    - references.qmd
+    - lc_storage_model.qmd
+    - lc_storage_solution.qmd
+    - lc_storage_simulation.qmd
+    - lc_no_storage.qmd
 
 bibliography: references.bib
 

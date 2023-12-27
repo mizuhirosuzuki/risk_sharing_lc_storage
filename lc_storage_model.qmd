@@ -1,0 +1,140 @@
+---
+title: "Risk sharing with limited commitoment and storage: Model"
+bibliography: references.bib
+format:
+  html:
+    toc: true
+    html-math-method: katex
+---
+
+## Value of autarky with storage
+
+The expected lifetime utility of an agent $i$ under autarky with storage, at a state $s$ with private savings $b$, is
+$$
+  V_i^{aut}(s, b) = \max_{b' \ge 0} \left\{ u(y_i^s + (1 + r) b - b') + \beta \sum_{j} \pi^j V_i^{aut} (y^j, b') \right\}.
+$$
+The intertemporal optimality condition, that is, the (individual) Euler equation, is
+$$
+  u'(c(s, b)) \ge (1 + r) \beta \sum_j \pi^j c(j, b'(s, b)),
+$$
+where the equality holds if $\beta'(s, b) \ge 0$.
+Note that $b'(s, b) = y_i^s + (1 + r) b - c(s, b)$.
+I use the policy function iteration method to calculate $c(s, b)$.
+
+What we are interested in is $U_i^{aut} \equiv V_i^{aut}(s, 0)$, that is, the autarky value when there is no private saving, since this is the state households consider in participation constraints.
+## Full model
+
+First I review the solutions (policy functions and value functions) of the model.
+In this document, I define the relative Pareto weight, $x$ as $x \equiv \frac{u'(c_1)}{u'(c_2)}$, which implies that higher $x$ is in favor of Household 2.
+For policy functions, I consider $x'(y, B, x)$, a current relative Pareto weight, $B'(y, B, x)$, a next-period storage, and $(\underline{x}(y, B), \overline{x}(y, B))$, a interval specific to a state-storage pair.
+Note that 
+$$
+  x'(y, B, x) = \begin{cases}
+    \overline{x}(y, B) \quad &\text{if } x \ge \overline{x}(y, B) \\
+    x \quad &\text{if } x \in (\underline{x}(y, B), \overline{x}(y, B)) \\
+    \underline{x}(y, B) \quad &\text{if } x \le \underline{x}(y, B).
+  \end{cases}
+$$
+Individual value functions are denoted as $V_1(y, B, x)$ and $V_2(y, B, x)$.
+
+By the intratemporal optimality conditions
+$$
+\begin{aligned}
+  c_1(y, B, x) &= \frac{y + (1 + r)B - B'(y, B, x)}{1 + x'(y, B, x)} \\
+  c_2(y, B, x) &= \frac{y + (1 + r)B - B'(y, B, x)}{1 + 1 / x'(y, B, x)},
+\end{aligned}
+$$
+and
+$$
+  \nu_1(y, B, x) = \max \left\{ 1 - \frac{x'(y, B, x)}{x}, 0 \right\}.
+$$
+Note that $\nu_1$ is not $0$ when participation constraint of Household 1 binds.
+
+For each $(y, B)$, consider the following cases:
+
+#### Case 1: $x < \underline{x}(y, B)$
+
+By the update rule of the relative Pareto weight, $x' = \underline{x}(y, B)$.
+Since the participation constraint of Household 2 is binding,
+$$
+  u(c_2(y, B, x)) + \beta \sum_{y'} Pr(y') V_2(y', B'(y, B, x), \underline{x}) = U_2^{aut}(y) \quad \left( = V_2(y, B, x) \right),
+$$
+and the planner's Euler equation is
+$$
+  u'(c_1(y, B, x)) \ge \beta (1 + r) \sum_{y'} Pr(y') \frac{u'(c_1(y', B'(y, B, x), \underline{x}(y, B)))}{1 - \nu_1(y', B'(y, B, x), \underline{x}(y, B))}.
+$$
+Note that, in this case, $B'(y, B, x)$ does not depend on $x$:
+if you look at the binding participation constraint of Household 2, since $x$ is updated to $\underline{x}(y, B)$, the consumption $c_2$ does not depend on $x$, and since the right-hand side of the equation does not depend on $x$, the value function term should not depend on $x$ either.
+Or, an alternative way to argue this is to refer to Lemma 1 of @abraham2018efficient stating that the current $x$ is a sufficient statistic for $B'$, given $B$ (and actually $y$ too because I consider a more general case that the aggregate income can differ across states).
+
+The value function of Household 1 is
+$$
+  V_1(y, B, x) = u(c_1(y, B, x)) + \beta \sum_{y'} Pr(y') V_1(y', B'(y, B, x), \underline{x}(y, B)).
+$$
+Notice that this also does not depend on $x$ since $c_1$ and $B'$ do not depend on $x$.
+
+#### Case 2: $x = \underline{x}(y, B)$
+
+By the update rule of the relative Pareto weight, $x' = \underline{x}(y, B)$.
+Since the participation constraint of Household 2 is binding,
+$$
+  u(c_2(y, B, \underline{x}(y, B))) + \beta \sum_{y'} Pr(y') V_2(y', B'(y, B, \underline{x}(y, B)), \underline{x}) = U_2^{aut}(y) \quad \left( = V_2(y, B, \underline{x}(y, B)) \right),
+$$
+and the planner's Euler equation is
+$$
+  u'(c_1(y, B, \underline{x}(y, B))) \ge \beta (1 + r) \sum_{y'} Pr(y') \frac{u'(c_1(y', B'(y, B, \underline{x}(y, B)), \underline{x}(y, B)))}{1 - \nu_1(y', B'(y, B, \underline{x}(y, B)), \underline{x}(y, B))}.
+$$
+The value function of Household 1 is
+$$
+  V_1(y, B, \underline{x}(y, B)) = u(c_1(y, B, \underline{x}(y, B))) + \beta \sum_{y'} Pr(y') V_1(y', B'(y, B, \underline{x}(y, B)), \underline{x}(y, B)).
+$$
+
+#### Case 3: $x \in (\underline{x}(y, B), \overline{x}(y, B)$
+
+Since no participation constraint is binding in this case, $x' = x$.
+Therefore, the value functions of the households are
+$$
+\begin{aligned}
+  V_1(y, B, x) &= u(c_1(y, B, x)) + \beta \sum_{y'} Pr(y') V_1(y', B'(y, B, x), x) \\
+  V_2(y, B, x) &= u(c_2(y, B, x)) + \beta \sum_{y'} Pr(y') V_2(y', B'(y, B, x), x).
+\end{aligned}
+$$
+And the planner's Euler equation needs to be satisfied:
+$$
+  u'(c_1(y, B, x)) \ge \beta (1 + r) \sum_{y'} Pr(y') \frac{u'(c_1(y', B'(y, B, x), x))}{1 - \nu_1(y', B'(y, B, x), x)}.
+$$
+
+#### Case 4: $x = \overline{x}(y, B)$
+
+By the update rule of the relative Pareto weight, $x' = \overline{x}(y, B)$.
+Since the participation constraint of Household 1 is binding,
+$$
+  u(c_1(y, B, \overline{x}(y, B))) + \beta \sum_{y'} Pr(y') V_1(y', B'(y, B, \overline{x}(y, B)), \overline{x}) = U_1^{aut}(y) \quad \left( = V_1(y, B, \overline{x}(y, B)) \right),
+$$
+and the planner's Euler equation is
+$$
+  u'(c_1(y, B, \overline{x}(y, B))) \ge \beta (1 + r) \sum_{y'} Pr(y') \frac{u'(c_1(y', B'(y, B, \overline{x}(y, B)), \overline{x}(y, B)))}{1 - \nu_1(y', B'(y, B, \overline{x}(y, B)), \overline{x}(y, B))}.
+$$
+The value function of Household 2 is
+$$
+  V_2(y, B, \overline{x}(y, B)) = u(c_2(y, B, \overline{x}(y, B))) + \beta \sum_{y'} Pr(y') V_2(y', B'(y, B, \overline{x}(y, B)), \overline{x}(y, B)).
+$$
+#### Case 5: $x < \overline{x}(y, B)$
+
+By the update rule of the relative Pareto weight, $x' = \overline{x}(y, B)$.
+Since the participation constraint of Household 1 is binding,
+$$
+  u(c_1(y, B, x)) + \beta \sum_{y'} Pr(y') V_1(y', B'(y, B, x), \overline{x}) = U_1^{aut}(y) \quad \left( = V_1(y, B, x) \right),
+$$
+and the planner's Euler equation is
+$$
+  u'(c_1(y, B, x)) \ge \beta (1 + r) \sum_{y'} Pr(y') \frac{u'(c_1(y', B'(y, B, x), \overline{x}(y, B)))}{1 - \nu_1(y', B'(y, B, x), \overline{x}(y, B))}.
+$$
+The value function of Household 2 is
+$$
+  V_2(y, B, x) = u(c_2(y, B, x)) + \beta \sum_{y'} Pr(y') V_2(y', B'(y, B, x), \overline{x}(y, B)).
+$$
+As in Case 1, $B'$, $V_1$, and $V_2$ do not depend on $x$.
+
+
+
