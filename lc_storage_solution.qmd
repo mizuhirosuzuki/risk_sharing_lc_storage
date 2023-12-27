@@ -140,7 +140,7 @@ aggregateIncomeGridPoints <- incomeGridPointsHH1 + incomeGridPointsHH2
 incomeTransitionProbVec <- rep(1 / 3, 3)
 incomeTransitionMatrix <- matrix(1 / 3, nrow = 3, ncol = 3)
 
-returnOnStorage <- 0.05
+returnOnStorage <- 0.02
 
 ```
 
@@ -673,11 +673,8 @@ valueArrayHH2New <- valueArrayHH2
 ```{r}
 
 relativeParetoWeightsBoundsArray <- array(
-  NA, dim = c(2, numStates, numStorageGridPoints)
+  1, dim = c(2, numStates, numStorageGridPoints)
 )
-relativeParetoWeightsBoundsArray[, 1,] <- max(relativeParetoWeightsGridPoints)
-relativeParetoWeightsBoundsArray[, 2,] <- 1
-relativeParetoWeightsBoundsArray[, 3,] <- min(relativeParetoWeightsGridPoints)
 relativeParetoWeightsBoundsArrayNew <- array(
   NA, dim = c(2, numStates, numStorageGridPoints)
 )
@@ -695,7 +692,7 @@ nextStorageArrayNew <- array(
 
 diff <- 1
 iter <- 1
-while ((diff > 1e-4) & (iter < 200)) {
+while ((diff > 1e-4) & (iter < 120)) {
   
   for (stateIndex in seq(1, numStates)) {
     print(stateIndex)
@@ -1149,93 +1146,5 @@ while ((diff > 1e-4) & (iter < 200)) {
 #   file.path('IntermediateData/modelSolution.rds')
 # )
 ```
-
-
-```{r, eval = FALSE}
-
-simSize <- 1000
-incomeSeq <- sample(seq(1, numStates), size = simSize, replace = TRUE)
-
-storageSeq <- c(0)
-relativeParetoWeightSeq <- c(1)
-consHH1Seq <- c()
-
-for (i in seq(1, simSize)) {
-  storageSeq <- c(
-    storageSeq,
-    interp2(
-      x = storageGridPoints,
-      y = relativeParetoWeightsGridPoints,
-      Z = nextStorageArray[incomeSeq[i], , ],
-      xp = storageSeq[i] %>% 
-        pmin(max(storageGridPoints)) %>% 
-        pmax(min(storageGridPoints)),
-      yp = relativeParetoWeightSeq[i] %>% 
-        pmin(max(relativeParetoWeightsGridPoints)) %>% 
-        pmax(min(relativeParetoWeightsGridPoints)),
-      method = "linear"
-    )
-  )
-  
-  relativeParetoWeightSeq <- c(
-    relativeParetoWeightSeq,
-    relativeParetoWeightSeq[i] %>% 
-      pmax(
-        approx(
-          storageGridPoints,
-          relativeParetoWeightsBoundsArray[
-            1, 
-            incomeSeq[i], 
-            ],
-          storageSeq[i],
-          rule = 2
-        )$y
-        ) %>% 
-      pmin(
-        approx(
-          storageGridPoints,
-          relativeParetoWeightsBoundsArray[
-            2, 
-            incomeSeq[i], 
-            ],
-          storageSeq[i],
-          rule = 2
-        )$y
-        )
-  )
-  
-  consHH1Seq <- c(
-    consHH1Seq,
-    calculateHH1Consumption(
-      (
-        aggregateIncomeGridPoints[incomeSeq[i]]
-        + (1 + returnOnStorage) * storageSeq[i]
-        - storageSeq[i + 1]
-        ),
-      relativeParetoWeightSeq[i + 1],
-      sigma
-    )
-  )
-}
-
-storageSeq[100:simSize] %>% 
-  as_tibble %>% 
-  mutate(period = seq(100, simSize)) %>% 
-  ggplot(aes(x = period, y = value)) +
-  geom_point() +
-  xlab('Time period') +
-  ylab('Public storage') +
-  theme_classic()
-consHH1Seq[100:simSize] %>%
-  as_tibble %>% 
-  mutate(period = seq(100, simSize)) %>% 
-  ggplot(aes(x = period, y = value)) +
-  geom_point() +
-  xlab('Time period') +
-  ylab('HH1 consumption') +
-  theme_classic()
-
-```
-
 
 
