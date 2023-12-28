@@ -1,5 +1,5 @@
 ---
-title: "Risk sharing with limited commitoment but without storage"
+title: "Comparison: Risk sharing with limited commitment but without storage"
 bibliography: references.bib
 format:
   html:
@@ -638,7 +638,5 @@ summaryTable %>%
   kable_classic()
 
 ```
-
-
 
 ## References

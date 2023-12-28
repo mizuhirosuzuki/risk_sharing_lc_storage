@@ -1,5 +1,5 @@
 ---
-title: "Risk sharing with limited commitoment and storage: Numerical solution"
+title: "Risk sharing with limited commitment and storage: Numerical solution"
 bibliography: references.bib
 format:
   html:

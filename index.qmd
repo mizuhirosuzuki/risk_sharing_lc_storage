@@ -1,5 +1,14 @@
 # Preface {.unnumbered}
 
-This is a Quarto book.
+This website explains a risk-sharing model with storage under limited commitment, based on @abraham2018efficient.
+After reviewing the model, I show how to numerically solve it, and then I demonstrate a simulation result to deep-dive into the model implications.
+Finally, I compare the result with the case without storage (as in @Ligon2002) and show that the possibility of storage can *worsen* households' welfare.
 
-To learn more about Quarto books visit <https://quarto.org/docs/books>.
+For writing R codes in this website, I refer to the Matlab scripts in the replication package of @abraham2018efficient provided [in the journal website](https://academic.oup.com/restud/article-abstract/85/3/1389/4583622).
+Any errors are my own, and if you find any mistakes or wrong statements, feel free to report it to me, through [the GitHub's issue page](https://github.com/mizuhirosuzuki/risk_sharing_lc_storage/issues) or via email.
+
+Contact: Mizuhiro Suzuki (mizuhiro.suzuki@gmail.com)
+
+GitHub repo: [https://github.com/mizuhirosuzuki/risk_sharing_lc_storage](https://github.com/mizuhirosuzuki/risk_sharing_lc_storage)
+
+## References

@@ -1,5 +1,5 @@
 ---
-title: "Risk sharing with limited commitoment and storage: Simulation"
+title: "Risk sharing with limited commitment and storage: Simulation"
 bibliography: references.bib
 format:
   html:
@@ -318,5 +318,4 @@ simulationResult %>%
 # )
 ```
 
-```
 

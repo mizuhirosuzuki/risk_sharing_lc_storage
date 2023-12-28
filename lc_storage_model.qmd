@@ -1,11 +1,13 @@
 ---
-title: "Risk sharing with limited commitoment and storage: Model"
+title: "Risk sharing with limited commitment and storage: Model"
 bibliography: references.bib
 format:
   html:
     toc: true
     html-math-method: katex
 ---
+
+## Set up 
 
 ## Value of autarky with storage
 
@@ -22,10 +24,11 @@ Note that $b'(s, b) = y_i^s + (1 + r) b - c(s, b)$.
 I use the policy function iteration method to calculate $c(s, b)$.
 
 What we are interested in is $U_i^{aut} \equiv V_i^{aut}(s, 0)$, that is, the autarky value when there is no private saving, since this is the state households consider in participation constraints.
-## Full model
 
-First I review the solutions (policy functions and value functions) of the model.
-In this document, I define the relative Pareto weight, $x$ as $x \equiv \frac{u'(c_1)}{u'(c_2)}$, which implies that higher $x$ is in favor of Household 2.
+## Transition of the states
+
+First I review the solutions (policy functions and value functions) of the model and see how the states evolve in the model.
+In this document, I define the relative Pareto weight, $x$, as $x \equiv \frac{u'(c_1)}{u'(c_2)}$, which implies that higher $x$ is in favor of Household 2.
 For policy functions, I consider $x'(y, B, x)$, a current relative Pareto weight, $B'(y, B, x)$, a next-period storage, and $(\underline{x}(y, B), \overline{x}(y, B))$, a interval specific to a state-storage pair.
 Note that 
 $$
@@ -52,7 +55,7 @@ Note that $\nu_1$ is not $0$ when participation constraint of Household 1 binds.
 
 For each $(y, B)$, consider the following cases:
 
-#### Case 1: $x < \underline{x}(y, B)$
+### Case 1: $x < \underline{x}(y, B)$
 
 By the update rule of the relative Pareto weight, $x' = \underline{x}(y, B)$.
 Since the participation constraint of Household 2 is binding,
@@ -73,7 +76,7 @@ $$
 $$
 Notice that this also does not depend on $x$ since $c_1$ and $B'$ do not depend on $x$.
 
-#### Case 2: $x = \underline{x}(y, B)$
+### Case 2: $x = \underline{x}(y, B)$
 
 By the update rule of the relative Pareto weight, $x' = \underline{x}(y, B)$.
 Since the participation constraint of Household 2 is binding,
@@ -89,7 +92,7 @@ $$
   V_1(y, B, \underline{x}(y, B)) = u(c_1(y, B, \underline{x}(y, B))) + \beta \sum_{y'} Pr(y') V_1(y', B'(y, B, \underline{x}(y, B)), \underline{x}(y, B)).
 $$
 
-#### Case 3: $x \in (\underline{x}(y, B), \overline{x}(y, B)$
+### Case 3: $x \in (\underline{x}(y, B), \overline{x}(y, B)$
 
 Since no participation constraint is binding in this case, $x' = x$.
 Therefore, the value functions of the households are
@@ -104,7 +107,7 @@ $$
   u'(c_1(y, B, x)) \ge \beta (1 + r) \sum_{y'} Pr(y') \frac{u'(c_1(y', B'(y, B, x), x))}{1 - \nu_1(y', B'(y, B, x), x)}.
 $$
 
-#### Case 4: $x = \overline{x}(y, B)$
+### Case 4: $x = \overline{x}(y, B)$
 
 By the update rule of the relative Pareto weight, $x' = \overline{x}(y, B)$.
 Since the participation constraint of Household 1 is binding,
@@ -119,7 +122,7 @@ The value function of Household 2 is
 $$
   V_2(y, B, \overline{x}(y, B)) = u(c_2(y, B, \overline{x}(y, B))) + \beta \sum_{y'} Pr(y') V_2(y', B'(y, B, \overline{x}(y, B)), \overline{x}(y, B)).
 $$
-#### Case 5: $x < \overline{x}(y, B)$
+### Case 5: $x < \overline{x}(y, B)$
 
 By the update rule of the relative Pareto weight, $x' = \overline{x}(y, B)$.
 Since the participation constraint of Household 1 is binding,
@@ -136,5 +139,6 @@ $$
 $$
 As in Case 1, $B'$, $V_1$, and $V_2$ do not depend on $x$.
 
+## References
 
 

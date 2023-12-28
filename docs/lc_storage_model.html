@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Risk-sharing with limited commitment and storage - 1&nbsp; Risk sharing with limited commitoment and storage: Model</title>
+<title>Risk-sharing with limited commitment and storage - 1&nbsp; Risk sharing with limited commitment and storage: Model</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -105,7 +105,7 @@ div.csl-indent {
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Risk sharing with limited commitoment and storage: Model</span></h1>
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Risk sharing with limited commitment and storage: Model</span></h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -135,22 +135,22 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./lc_storage_model.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Risk sharing with limited commitoment and storage: Model</span></a>
+  <a href="./lc_storage_model.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Risk sharing with limited commitment and storage: Model</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./lc_storage_solution.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Risk sharing with limited commitoment and storage: Numerical solution</span></a>
+  <a href="./lc_storage_solution.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Risk sharing with limited commitment and storage: Numerical solution</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./lc_storage_simulation.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Risk sharing with limited commitoment and storage: Simulation</span></a>
+  <a href="./lc_storage_simulation.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Risk sharing with limited commitment and storage: Simulation</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./lc_no_storage.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Risk sharing with limited commitoment but without storage</span></a>
+  <a href="./lc_no_storage.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Comparison: Risk sharing with limited commitment but without storage</span></a>
   </div>
 </li>
     </ul>
@@ -163,6 +163,14 @@ div.csl-indent {
    
   <ul>
   <li><a href="#value-of-autarky-with-storage" id="toc-value-of-autarky-with-storage" class="nav-link active" data-scroll-target="#value-of-autarky-with-storage"><span class="toc-section-number">1.1</span>  Value of autarky with storage</a></li>
+  <li><a href="#transition-of-the-states" id="toc-transition-of-the-states" class="nav-link" data-scroll-target="#transition-of-the-states"><span class="toc-section-number">1.2</span>  Transition of the states</a>
+  <ul class="collapse">
+  <li><a href="#case-1-x-underlinexy-b" id="toc-case-1-x-underlinexy-b" class="nav-link" data-scroll-target="#case-1-x-underlinexy-b"><span class="toc-section-number">1.2.1</span>  Case 1: <span class="math inline">x &lt; \underline{x}(y, B)</span></a></li>
+  <li><a href="#case-2-x-underlinexy-b" id="toc-case-2-x-underlinexy-b" class="nav-link" data-scroll-target="#case-2-x-underlinexy-b"><span class="toc-section-number">1.2.2</span>  Case 2: <span class="math inline">x = \underline{x}(y, B)</span></a></li>
+  <li><a href="#case-3-x-in-underlinexy-b-overlinexy-b" id="toc-case-3-x-in-underlinexy-b-overlinexy-b" class="nav-link" data-scroll-target="#case-3-x-in-underlinexy-b-overlinexy-b"><span class="toc-section-number">1.2.3</span>  Case 3: <span class="math inline">x \in (\underline{x}(y, B), \overline{x}(y, B)</span></a></li>
+  <li><a href="#case-4-x-overlinexy-b" id="toc-case-4-x-overlinexy-b" class="nav-link" data-scroll-target="#case-4-x-overlinexy-b"><span class="toc-section-number">1.2.4</span>  Case 4: <span class="math inline">x = \overline{x}(y, B)</span></a></li>
+  </ul></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="toc-section-number">1.3</span>  References</a></li>
   </ul>
 </nav>
     </div>
@@ -171,7 +179,7 @@ div.csl-indent {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Risk sharing with limited commitoment and storage: Model</span></h1>
+<h1 class="title d-none d-lg-block"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Risk sharing with limited commitment and storage: Model</span></h1>
 </div>
 
 
@@ -193,8 +201,11 @@ div.csl-indent {
 </span> The intertemporal optimality condition, that is, the (individual) Euler equation, is <span class="math display">
   u'(c(s, b)) \ge (1 + r) \beta \sum_j \pi^j c(j, b'(s, b)),
 </span> where the equality holds if <span class="math inline">\beta'(s, b) \ge 0</span>. Note that <span class="math inline">b'(s, b) = y_i^s + (1 + r) b - c(s, b)</span>. I use the policy function iteration method to calculate <span class="math inline">c(s, b)</span>.</p>
-<p>What we are interested in is <span class="math inline">U_i^{aut} \equiv V_i^{aut}(s, 0)</span>, that is, the autarky value when there is no private saving, since this is the state households consider in participation constraints. ## Full model</p>
-<p>First I review the solutions (policy functions and value functions) of the model. In this document, I define the relative Pareto weight, <span class="math inline">x</span> as <span class="math inline">x \equiv \frac{u'(c_1)}{u'(c_2)}</span>, which implies that higher <span class="math inline">x</span> is in favor of Household 2. For policy functions, I consider <span class="math inline">x'(y, B, x)</span>, a current relative Pareto weight, <span class="math inline">B'(y, B, x)</span>, a next-period storage, and <span class="math inline">(\underline{x}(y, B), \overline{x}(y, B))</span>, a interval specific to a state-storage pair. Note that <span class="math display">
+<p>What we are interested in is <span class="math inline">U_i^{aut} \equiv V_i^{aut}(s, 0)</span>, that is, the autarky value when there is no private saving, since this is the state households consider in participation constraints.</p>
+</section>
+<section id="transition-of-the-states" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="transition-of-the-states"><span class="header-section-number">1.2</span> Transition of the states</h2>
+<p>First I review the solutions (policy functions and value functions) of the model and see how the states evolve in the model. In this document, I define the relative Pareto weight, <span class="math inline">x</span>, as <span class="math inline">x \equiv \frac{u'(c_1)}{u'(c_2)}</span>, which implies that higher <span class="math inline">x</span> is in favor of Household 2. For policy functions, I consider <span class="math inline">x'(y, B, x)</span>, a current relative Pareto weight, <span class="math inline">B'(y, B, x)</span>, a next-period storage, and <span class="math inline">(\underline{x}(y, B), \overline{x}(y, B))</span>, a interval specific to a state-storage pair. Note that <span class="math display">
   x'(y, B, x) = \begin{cases}
     \overline{x}(y, B) \quad &amp;\text{if } x \ge \overline{x}(y, B) \\
     x \quad &amp;\text{if } x \in (\underline{x}(y, B), \overline{x}(y, B)) \\
@@ -210,19 +221,19 @@ div.csl-indent {
   \nu_1(y, B, x) = \max \left\{ 1 - \frac{x'(y, B, x)}{x}, 0 \right\}.
 </span> Note that <span class="math inline">\nu_1</span> is not <span class="math inline">0</span> when participation constraint of Household 1 binds.</p>
 <p>For each <span class="math inline">(y, B)</span>, consider the following cases:</p>
-<section id="case-1-x-underlinexy-b" class="level4" data-number="1.1.0.1">
-<h4 data-number="1.1.0.1" class="anchored" data-anchor-id="case-1-x-underlinexy-b"><span class="header-section-number">1.1.0.1</span> Case 1: <span class="math inline">x &lt; \underline{x}(y, B)</span></h4>
+<section id="case-1-x-underlinexy-b" class="level3" data-number="1.2.1">
+<h3 data-number="1.2.1" class="anchored" data-anchor-id="case-1-x-underlinexy-b"><span class="header-section-number">1.2.1</span> Case 1: <span class="math inline">x &lt; \underline{x}(y, B)</span></h3>
 <p>By the update rule of the relative Pareto weight, <span class="math inline">x' = \underline{x}(y, B)</span>. Since the participation constraint of Household 2 is binding, <span class="math display">
   u(c_2(y, B, x)) + \beta \sum_{y'} Pr(y') V_2(y', B'(y, B, x), \underline{x}) = U_2^{aut}(y) \quad \left( = V_2(y, B, x) \right),
 </span> and the planner’s Euler equation is <span class="math display">
   u'(c_1(y, B, x)) \ge \beta (1 + r) \sum_{y'} Pr(y') \frac{u'(c_1(y', B'(y, B, x), \underline{x}(y, B)))}{1 - \nu_1(y', B'(y, B, x), \underline{x}(y, B))}.
-</span> Note that, in this case, <span class="math inline">B'(y, B, x)</span> does not depend on <span class="math inline">x</span>: if you look at the binding participation constraint of Household 2, since <span class="math inline">x</span> is updated to <span class="math inline">\underline{x}(y, B)</span>, the consumption <span class="math inline">c_2</span> does not depend on <span class="math inline">x</span>, and since the right-hand side of the equation does not depend on <span class="math inline">x</span>, the value function term should not depend on <span class="math inline">x</span> either. Or, an alternative way to argue this is to refer to Lemma 1 of <span class="citation" data-cites="abraham2018efficient">Ábrahám and Laczó (<a href="#ref-abraham2018efficient" role="doc-biblioref">n.d.</a>)</span> stating that the current <span class="math inline">x</span> is a sufficient statistic for <span class="math inline">B'</span>, given <span class="math inline">B</span> (and actually <span class="math inline">y</span> too because I consider a more general case that the aggregate income can differ across states).</p>
+</span> Note that, in this case, <span class="math inline">B'(y, B, x)</span> does not depend on <span class="math inline">x</span>: if you look at the binding participation constraint of Household 2, since <span class="math inline">x</span> is updated to <span class="math inline">\underline{x}(y, B)</span>, the consumption <span class="math inline">c_2</span> does not depend on <span class="math inline">x</span>, and since the right-hand side of the equation does not depend on <span class="math inline">x</span>, the value function term should not depend on <span class="math inline">x</span> either. Or, an alternative way to argue this is to refer to Lemma 1 of <span class="citation" data-cites="abraham2018efficient">Ábrahám and Laczó (<a href="#ref-abraham2018efficient" role="doc-biblioref">2018</a>)</span> stating that the current <span class="math inline">x</span> is a sufficient statistic for <span class="math inline">B'</span>, given <span class="math inline">B</span> (and actually <span class="math inline">y</span> too because I consider a more general case that the aggregate income can differ across states).</p>
 <p>The value function of Household 1 is <span class="math display">
   V_1(y, B, x) = u(c_1(y, B, x)) + \beta \sum_{y'} Pr(y') V_1(y', B'(y, B, x), \underline{x}(y, B)).
 </span> Notice that this also does not depend on <span class="math inline">x</span> since <span class="math inline">c_1</span> and <span class="math inline">B'</span> do not depend on <span class="math inline">x</span>.</p>
 </section>
-<section id="case-2-x-underlinexy-b" class="level4" data-number="1.1.0.2">
-<h4 data-number="1.1.0.2" class="anchored" data-anchor-id="case-2-x-underlinexy-b"><span class="header-section-number">1.1.0.2</span> Case 2: <span class="math inline">x = \underline{x}(y, B)</span></h4>
+<section id="case-2-x-underlinexy-b" class="level3" data-number="1.2.2">
+<h3 data-number="1.2.2" class="anchored" data-anchor-id="case-2-x-underlinexy-b"><span class="header-section-number">1.2.2</span> Case 2: <span class="math inline">x = \underline{x}(y, B)</span></h3>
 <p>By the update rule of the relative Pareto weight, <span class="math inline">x' = \underline{x}(y, B)</span>. Since the participation constraint of Household 2 is binding, <span class="math display">
   u(c_2(y, B, \underline{x}(y, B))) + \beta \sum_{y'} Pr(y') V_2(y', B'(y, B, \underline{x}(y, B)), \underline{x}) = U_2^{aut}(y) \quad \left( = V_2(y, B, \underline{x}(y, B)) \right),
 </span> and the planner’s Euler equation is <span class="math display">
@@ -231,8 +242,8 @@ div.csl-indent {
   V_1(y, B, \underline{x}(y, B)) = u(c_1(y, B, \underline{x}(y, B))) + \beta \sum_{y'} Pr(y') V_1(y', B'(y, B, \underline{x}(y, B)), \underline{x}(y, B)).
 </span></p>
 </section>
-<section id="case-3-x-in-underlinexy-b-overlinexy-b" class="level4" data-number="1.1.0.3">
-<h4 data-number="1.1.0.3" class="anchored" data-anchor-id="case-3-x-in-underlinexy-b-overlinexy-b"><span class="header-section-number">1.1.0.3</span> Case 3: <span class="math inline">x \in (\underline{x}(y, B), \overline{x}(y, B)</span></h4>
+<section id="case-3-x-in-underlinexy-b-overlinexy-b" class="level3" data-number="1.2.3">
+<h3 data-number="1.2.3" class="anchored" data-anchor-id="case-3-x-in-underlinexy-b-overlinexy-b"><span class="header-section-number">1.2.3</span> Case 3: <span class="math inline">x \in (\underline{x}(y, B), \overline{x}(y, B)</span></h3>
 <p>Since no participation constraint is binding in this case, <span class="math inline">x' = x</span>. Therefore, the value functions of the households are <span class="math display">
 \begin{aligned}
   V_1(y, B, x) &amp;= u(c_1(y, B, x)) + \beta \sum_{y'} Pr(y') V_1(y', B'(y, B, x), x) \\
@@ -242,15 +253,15 @@ div.csl-indent {
   u'(c_1(y, B, x)) \ge \beta (1 + r) \sum_{y'} Pr(y') \frac{u'(c_1(y', B'(y, B, x), x))}{1 - \nu_1(y', B'(y, B, x), x)}.
 </span></p>
 </section>
-<section id="case-4-x-overlinexy-b" class="level4" data-number="1.1.0.4">
-<h4 data-number="1.1.0.4" class="anchored" data-anchor-id="case-4-x-overlinexy-b"><span class="header-section-number">1.1.0.4</span> Case 4: <span class="math inline">x = \overline{x}(y, B)</span></h4>
+<section id="case-4-x-overlinexy-b" class="level3" data-number="1.2.4">
+<h3 data-number="1.2.4" class="anchored" data-anchor-id="case-4-x-overlinexy-b"><span class="header-section-number">1.2.4</span> Case 4: <span class="math inline">x = \overline{x}(y, B)</span></h3>
 <p>By the update rule of the relative Pareto weight, <span class="math inline">x' = \overline{x}(y, B)</span>. Since the participation constraint of Household 1 is binding, <span class="math display">
   u(c_1(y, B, \overline{x}(y, B))) + \beta \sum_{y'} Pr(y') V_1(y', B'(y, B, \overline{x}(y, B)), \overline{x}) = U_1^{aut}(y) \quad \left( = V_1(y, B, \overline{x}(y, B)) \right),
 </span> and the planner’s Euler equation is <span class="math display">
   u'(c_1(y, B, \overline{x}(y, B))) \ge \beta (1 + r) \sum_{y'} Pr(y') \frac{u'(c_1(y', B'(y, B, \overline{x}(y, B)), \overline{x}(y, B)))}{1 - \nu_1(y', B'(y, B, \overline{x}(y, B)), \overline{x}(y, B))}.
 </span> The value function of Household 2 is <span class="math display">
   V_2(y, B, \overline{x}(y, B)) = u(c_2(y, B, \overline{x}(y, B))) + \beta \sum_{y'} Pr(y') V_2(y', B'(y, B, \overline{x}(y, B)), \overline{x}(y, B)).
-</span> #### Case 5: <span class="math inline">x &lt; \overline{x}(y, B)</span></p>
+</span> ### Case 5: <span class="math inline">x &lt; \overline{x}(y, B)</span></p>
 <p>By the update rule of the relative Pareto weight, <span class="math inline">x' = \overline{x}(y, B)</span>. Since the participation constraint of Household 1 is binding, <span class="math display">
   u(c_1(y, B, x)) + \beta \sum_{y'} Pr(y') V_1(y', B'(y, B, x), \overline{x}) = U_1^{aut}(y) \quad \left( = V_1(y, B, x) \right),
 </span> and the planner’s Euler equation is <span class="math display">
@@ -258,14 +269,17 @@ div.csl-indent {
 </span> The value function of Household 2 is <span class="math display">
   V_2(y, B, x) = u(c_2(y, B, x)) + \beta \sum_{y'} Pr(y') V_2(y', B'(y, B, x), \overline{x}(y, B)).
 </span> As in Case 1, <span class="math inline">B'</span>, <span class="math inline">V_1</span>, and <span class="math inline">V_2</span> do not depend on <span class="math inline">x</span>.</p>
+</section>
+</section>
+<section id="references" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="references"><span class="header-section-number">1.3</span> References</h2>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
 <div id="ref-abraham2018efficient" class="csl-entry" role="doc-biblioentry">
-Ábrahám, Árpád, and Sarolta Laczó. n.d. <span>“Efficient Risk Sharing with Limited Commitment and Storage.”</span> <em>The Review of Economic Studies</em> 85 (3).
+Ábrahám, Árpád, and Sarolta Laczó. 2018. <span>“Efficient Risk Sharing with Limited Commitment and Storage.”</span> <em>The Review of Economic Studies</em> 85 (3): 1389–1424.
 </div>
 </div>
-</section>
 </section>
 
 </main> <!-- /main -->
@@ -410,7 +424,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   </div>
   <div class="nav-page nav-page-next">
       <a href="./lc_storage_solution.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Risk sharing with limited commitoment and storage: Numerical solution</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Risk sharing with limited commitment and storage: Numerical solution</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
