@@ -199,7 +199,7 @@ div.csl-indent {
 
 </header>
 
-<p>First, I review the risk-sharing model with storage under limited commitment, following the model in <span class="citation" data-cites="abraham2018efficient">Ábrahám and Laczó (<a href="#ref-abraham2018efficient" role="doc-biblioref">2018a</a>)</span>.</p>
+<p>First, I review the risk-sharing model with storage under limited commitment, following the model in <span class="citation" data-cites="abraham2018efficient">Ábrahám and Laczó (<a href="#ref-abraham2018efficient" role="doc-biblioref">2018</a>)</span>.</p>
 <section id="set-up" class="level2" data-number="1.1">
 <h2 data-number="1.1" class="anchored" data-anchor-id="set-up"><span class="header-section-number">1.1</span> Set up</h2>
 <section id="model" class="level3" data-number="1.1.1">
@@ -218,7 +218,7 @@ div.csl-indent {
   &amp;B(s^t) \ge 0 \quad \forall s^t, \forall t
 \end{aligned}
 </span> where the similar notations are used as in the case without storage, with a few exceptions that, <span class="math inline">B(s^t)</span> is a public storage at the state history <span class="math inline">s^t</span>, and <span class="math inline">\tilde{U}_i^{aut}</span> is the autarky value with private storage. Also, for simplicity, assume that the income process is i.i.d..</p>
-<p>Note that, here I do not consider the possibility of households relying on private storage while they are in the risk-sharing network. In principle, they can use private saving, and hence to the list of constraints, I would need to add intertemporal optimality conditions (that is, Euler equations of each household). However, <span class="citation" data-cites="Abraham2018">Ábrahám and Laczó (<a href="#ref-Abraham2018" role="doc-biblioref">2018b</a>)</span> shows that private storage does not matter when public asset accumulation is optimal (Proposition 4). Therefore, I can safely ignore the possibility of private storage from the constraints, which simplifies the expression and also numerical solution greatly.</p>
+<p>Note that, here I do not consider the possibility of households relying on private storage while they are in the risk-sharing network. In principle, they can use private saving, and hence to the list of constraints, I would need to add intertemporal optimality conditions (that is, Euler equations of each household). However, <span class="citation" data-cites="abraham2018efficient">Ábrahám and Laczó (<a href="#ref-abraham2018efficient" role="doc-biblioref">2018</a>)</span> shows that private storage does not matter when public asset accumulation is optimal (Proposition 4). Therefore, I can safely ignore the possibility of private storage from the constraints, which simplifies the expression and also numerical solution greatly.</p>
 <p>Using the recursive form in <span class="citation" data-cites="Marcet2019">Marcet and Marimon (<a href="#ref-Marcet2019" role="doc-biblioref">2019</a>)</span>, the Lagrangian can be written as <span class="math display">
 \begin{aligned}
   \mathcal{L} = \sum_{t = 1}^{\infty} \sum_{s^t} \beta^t Pr(s^t) \left\{ \sum_i \left[ M_i(s^t) u(c_i(s^t)) - \mu_i(s^t) U^{aut}_i(s^t) \right] + \gamma(s^t) \left( \sum_i (y_i(s_t) - c_i(s^t)) + (1 + r) B(s^{t - 1}) - B(s^t) \right) + \rho(s^t) B(s^t) \right\},
@@ -284,7 +284,7 @@ x \quad &amp;\text{if } x \in [\underline{x}(y, B), \overline{x}(y, B)] \\
   u(c_2(y, B, x)) + \beta \sum_{y'} Pr(y') V_2(y', B'(y, B, x), \underline{x}) = U_2^{aut}(y) \quad \left( = V_2(y, B, x) \right),
 </span> and the planner’s Euler equation is <span class="math display">
   u'(c_1(y, B, x)) \ge \beta (1 + r) \sum_{y'} Pr(y') \frac{u'(c_1(y', B'(y, B, x), \underline{x}(y, B)))}{1 - \nu_1(y', B'(y, B, x), \underline{x}(y, B))}.
-</span> Note that, in this case, <span class="math inline">B'(y, B, x)</span> does not depend on <span class="math inline">x</span>: if you look at the binding participation constraint of Household 2, since <span class="math inline">x</span> is updated to <span class="math inline">\underline{x}(y, B)</span>, the consumption <span class="math inline">c_2</span> does not depend on <span class="math inline">x</span>, and since the right-hand side of the equation does not depend on <span class="math inline">x</span>, the value function term should not depend on <span class="math inline">x</span> either. Or, an alternative way to argue this is to refer to Lemma 1 of <span class="citation" data-cites="abraham2018efficient">Ábrahám and Laczó (<a href="#ref-abraham2018efficient" role="doc-biblioref">2018a</a>)</span> stating that the current <span class="math inline">x</span> is a sufficient statistic for <span class="math inline">B'</span>, given <span class="math inline">B</span> (and actually <span class="math inline">y</span> too because I consider a more general case that the aggregate income can differ across states).</p>
+</span> Note that, in this case, <span class="math inline">B'(y, B, x)</span> does not depend on <span class="math inline">x</span>: if you look at the binding participation constraint of Household 2, since <span class="math inline">x</span> is updated to <span class="math inline">\underline{x}(y, B)</span>, the consumption <span class="math inline">c_2</span> does not depend on <span class="math inline">x</span>, and since the right-hand side of the equation does not depend on <span class="math inline">x</span>, the value function term should not depend on <span class="math inline">x</span> either. Or, an alternative way to argue this is to refer to Lemma 1 of <span class="citation" data-cites="abraham2018efficient">Ábrahám and Laczó (<a href="#ref-abraham2018efficient" role="doc-biblioref">2018</a>)</span> stating that the current <span class="math inline">x</span> is a sufficient statistic for <span class="math inline">B'</span>, given <span class="math inline">B</span> (and actually <span class="math inline">y</span> too because I consider a more general case that the aggregate income can differ across states).</p>
 <p>The value function of Household 1 is <span class="math display">
   V_1(y, B, x) = u(c_1(y, B, x)) + \beta \sum_{y'} Pr(y') V_1(y', B'(y, B, x), \underline{x}(y, B)).
 </span> Notice that this also does not depend on <span class="math inline">x</span> since <span class="math inline">c_1</span> and <span class="math inline">B'</span> do not depend on <span class="math inline">x</span>.</p>
@@ -336,11 +336,8 @@ x \quad &amp;\text{if } x \in [\underline{x}(y, B), \overline{x}(y, B)] \\
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
-<div id="ref-Abraham2018" class="csl-entry" role="doc-biblioentry">
-Ábrahám, Árpád, and Sarolta Laczó. 2018b. <span>“Efficient Risk Sharing with Limited Commitment and Storage.”</span> <em>The Review of Economic Studies</em> 85 (3): 1389–1424.
-</div>
 <div id="ref-abraham2018efficient" class="csl-entry" role="doc-biblioentry">
-———. 2018a. <span>“Efficient Risk Sharing with Limited Commitment and Storage.”</span> <em>The Review of Economic Studies</em> 85 (3): 1389–1424.
+Ábrahám, Árpád, and Sarolta Laczó. 2018. <span>“Efficient Risk Sharing with Limited Commitment and Storage.”</span> <em>The Review of Economic Studies</em> 85 (3): 1389–1424.
 </div>
 <div id="ref-Ligon2002" class="csl-entry" role="doc-biblioentry">
 Ligon, Ethan, Jonathan P. Thomas, and Tim Worrall. 2002. <span>“<span class="nocase">Informal Insurance Arrangements with Limited Commitment: Theory and Evidence from Village Economies</span>.”</span> <em>Review of Economic Studies</em> 69 (1): 209–44. <a href="https://doi.org/10.1111/1467-937X.00204">https://doi.org/10.1111/1467-937X.00204</a>.
