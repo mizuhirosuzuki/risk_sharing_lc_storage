@@ -7,6 +7,10 @@ format:
     html-math-method: katex
 ---
 
+Finally, I compare the model with a risk-sharing model under limited commitment but without storage, as in @Kocherlakota1996 and @Ligon2002.
+I use the simulation code I wrote [on this webstie](https://mizuhirosuzuki.github.io/risk_sharing_lc_estimation/).
+After I show that, in contrast to the model with saving, the model here gives consumption whcih takes a finite number of values in limit, I demonstrate that the welfare actually can decrease due to the existence of storage. 
+
 ## Code
 
 ```{r}
@@ -43,7 +47,6 @@ calculateHH1Consumption <- function(
 }
 
 ```
-
 
 ### Value under autarky
 
@@ -596,6 +599,11 @@ simulationResultNoStorage <- tibble(
 
 ```
 
+## Simulation result
+
+The figure shows the consumption evolution over time.
+Unlike the model with storage, the model without storage results in a consumption pattern which takes only a finite number of values in the steady state.
+
 ```{r}
 simulationResultNoStorage %>% 
   filter(period >= 100) %>% 
@@ -608,6 +616,13 @@ simulationResultNoStorage %>%
 ```
 
 ## Comparison with the case with storage
+
+The table below compares the consumption means, standard deviations, and the average utilities over time.
+Due to the storage with positive return on saving, the mean consumption is higher in the model with storage.
+However, due to the existence of storage, the autarky values are higher, and hence the risk-sharing functionality is degraded.
+This results in more variable consumption (second row) and hence, lower welfare (third row) in the model with storage.
+Notice that, this kind of reduced welfare is achieved only for medium-level returns on saving.
+If the return is too low, saving is not used and there is no welfare impact, and if the return is sufficiently high, the benefit from intertemporal consumption smoothing dominates and hence there is a welfare improvement.
 
 ```{r}
 simulationResult <- readRDS(

@@ -7,6 +7,12 @@ format:
     html-math-method: katex
 ---
 
+Based on the numerical solution from the previous section, I simulate an income stream to see how storage and consumption change over time.
+
+## Code
+
+### Global settings
+
 ```{r}
 pacman::p_load(
   tidyverse,
@@ -16,6 +22,7 @@ pacman::p_load(
 )
 ```
 
+# Load solution
 
 ```{r}
 modelSolutionList <- readRDS(
@@ -77,7 +84,6 @@ calculateHH1Consumption <- function(
 
 ```{r}
 
-set.seed(123)
 incomeSeq <- sample(seq(1, numStates), size = simSize, replace = TRUE)
 
 storageSeq <- c(0)
@@ -157,6 +163,11 @@ simulationResult <- tibble(
 
 ## Storage and consumption at the steady state
 
+First I show the storage and consumption at the steady state.
+The figures below show that, even in the steady state, they are stochastic.
+This is in contrast to the implication of a limited commitment model without storage, as in @Kocherlakota1996, where consumption in limit takes a finite number of values.
+Also, the stochastic consumption clearly shows the violation of the "amnesia" property in @Kocherlakota1996: consumption is not determined by the state and identities of households whose participation constraints are binding.
+
 ```{r}
 simulationResult %>% 
   filter(period >= 100) %>% 
@@ -177,6 +188,11 @@ simulationResult %>%
 
 ## Relative Pareto weight intervals
 
+The figure below shows the interval bounds of relative Pareto weights, where the x-axis is public storage.
+It shows that when public storage is large, participation constraints are more relaxed and hence more transfers are achievable.
+This is exactly why the social planner has an incentive for saving:
+more public storage allows a better functionality of a risk-sharing network.
+
 ```{r}
 
 tibble(
@@ -195,7 +211,7 @@ tibble(
   geom_line(aes(x = storage, y = x_h_1, color = 'd')) +
   geom_line(aes(x = storage, y = x_h_2, color = 'e')) +
   geom_line(aes(x = storage, y = x_h_3, color = 'f')) +
-      scale_color_manual(
+  scale_color_manual(
       name = "End-points",
       values = c(
         "blue",
@@ -223,6 +239,9 @@ tibble(
 
 ## Storage behavior
 
+This is not a simulation result, but let me know how the storage policy function looks differently by income states.
+The first is for the case where the relative Pareto weight is $1$.
+
 ```{r}
 tibble(
   storage = storageGridPoints,
@@ -234,8 +253,29 @@ tibble(
   ggplot() +
   geom_line(aes(x = storage, y = x1, color = 'a')) +
   geom_line(aes(x = storage, y = x2, color = 'b')) +
-  geom_line(aes(x = storage, y = x3, color = 'c'))
+  geom_line(aes(x = storage, y = x3, color = 'c')) +
+  xlab("Current public storage") +
+  ylab("Next-period public storage") +
+  scale_color_manual(
+      name = "Income states",
+      values = c(
+        "blue",
+        "red",
+        "orange"
+        ),
+      labels = c(
+        "Low HH1 income",
+        "Medium HH1 income",
+        "High HH1 income"
+      )
+      ) +
+  theme_minimal()
+```
 
+And this is the case where the relative Pareto weight is $0.64$.
+Remember that a smaller relative Pareto weight is in favor of Household 1.
+
+```{r}
 tibble(
   storage = storageGridPoints,
   x1 = nextStorageArray[1,51,],
@@ -246,10 +286,30 @@ tibble(
   ggplot() +
   geom_line(aes(x = storage, y = x1, color = 'a')) +
   geom_line(aes(x = storage, y = x2, color = 'b')) +
-  geom_line(aes(x = storage, y = x3, color = 'c'))
+  geom_line(aes(x = storage, y = x3, color = 'c')) +
+  xlab("Current public storage") +
+  ylab("Next-period public storage") +
+  scale_color_manual(
+      name = "Income states",
+      values = c(
+        "blue",
+        "red",
+        "orange"
+        ),
+      labels = c(
+        "Low HH1 income",
+        "Medium HH1 income",
+        "High HH1 income"
+      )
+      ) +
+  theme_minimal()
 
+```
 
 ## Transition in storage
+
+Here, I show how storage evolves over time, depending on the sequence of income realizations.
+The figure uses different colors for different sequences (state 1: low HH1 income, state 2: medium HH1 income, state 3: high HH1 income).
 
 ```{r}
 simulationResult %>% 
@@ -264,6 +324,8 @@ simulationResult %>%
 ```
 
 ### No income inequality state
+
+When the income state 2 is realized, income is equal between two households, and the social planner stores nothing for the following period.
 
 ```{r}
 simulationResult %>% 
@@ -281,6 +343,8 @@ simulationResult %>%
 
 ### From no income inequality to some inequality
 
+When a medium income state is followed by an income state with inequality, the social planner makes savings.
+
 ```{r}
 simulationResult %>% 
   filter(period >= 100) %>% 
@@ -297,6 +361,8 @@ simulationResult %>%
 
 ### Consecutvive states with some income inequality
 
+When unequal income states continue, more assets are accumulated.
+
 ```{r}
 simulationResult %>% 
   filter(period >= 100) %>% 
@@ -310,12 +376,4 @@ simulationResult %>%
   theme_classic()
 
 ```
-
-```{r}
-# saveRDS(
-#   simulationResult,
-#   file.path('IntermediateData/simulationResult.rds')
-# )
-```
-
 

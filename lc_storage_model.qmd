@@ -7,23 +7,103 @@ format:
     html-math-method: katex
 ---
 
+First, I review the risk-sharing model with storage under limited commitment, following the model in @abraham2018efficient.
+
 ## Set up 
 
-## Value of autarky with storage
+### Model
 
-The expected lifetime utility of an agent $i$ under autarky with storage, at a state $s$ with private savings $b$, is
+As in the basic limited commitment model, a social planner maximized the discounted sum of utilities of households, subject to resource constraints and participation constraints.
+But now, the social planner is allowed to *publicly* save resources across times, and also, each household can *privately* save for future periods.
+Here,
+
+- public storage is observed by households, and households cannot access once they leave the risk-sharing network (hence the public storage does not affect the autarky value), and
+- private storage is unenforceable in that social planners cannot use the private storage for resource allocation, and also, households can access the private storage under autarky too.
+
+Hence, the social planner solves the following maximization problem.
 $$
-  V_i^{aut}(s, b) = \max_{b' \ge 0} \left\{ u(y_i^s + (1 + r) b - b') + \beta \sum_{j} \pi^j V_i^{aut} (y^j, b') \right\}.
+\begin{aligned}
+  &\max_{\{c_{it}(s^t)\}} \sum_i \lambda_i \sum_{t = 1}^{\infty} \sum_{s^t} \delta^t \pi(s^t) u(c_{it}(s^t)) \\
+  \text{subject to} 
+  &\sum_i c_{it} (s^t) \le \sum_i y_{it}(s_t) + (1+r) B \left(s^{t - 1} \right) - B\left(s^t \right)\quad \forall s^t, \forall t \\
+  &\sum_{r = t}^{\infty} \sum_{s^r} \delta^{r - t} \pi(s^r | s^t) u(c_{ir}(s^r)) \ge \tilde{U}_{i}^{aut}(s_t) \quad \forall s^t, \forall t, \forall i, \\
+  &B(s^t) \ge 0 \quad \forall s^t, \forall t
+\end{aligned}
+$$
+where the similar notations are used as in the case without storage, with a few exceptions that, $B(s^t)$ is a public storage at the state history $s^t$, and $\tilde{U}_i^{aut}$ is the autarky value with private storage.
+Also, for simplicity, assume that the income process is i.i.d..
+
+Note that, here I do not consider the possibility of households relying on private storage while they are in the risk-sharing network.
+In principle, they can use private saving, and hence to the list of constraints, I would need to add intertemporal optimality conditions (that is, Euler equations of each household).
+However, @abraham2018efficient shows that private storage does not matter when public asset accumulation is optimal (Proposition 4).
+Therefore, I can safely ignore the possibility of private storage from the constraints, which simplifies the expression and also numerical solution greatly.
+
+Using the recursive form in @Marcet2019, the Lagrangian can be written as
+$$
+\begin{aligned}
+  \mathcal{L} = \sum_{t = 1}^{\infty} \sum_{s^t} \beta^t Pr(s^t) \left\{ \sum_i \left[ M_i(s^t) u(c_i(s^t)) - \mu_i(s^t) U^{aut}_i(s^t) \right] + \gamma(s^t) \left( \sum_i (y_i(s_t) - c_i(s^t)) + (1 + r) B(s^{t - 1}) - B(s^t) \right) + \rho(s^t) B(s^t) \right\},
+\end{aligned}
+$$
+where $\mu_i(s^t)$, $\gamma(s^t)$, and $\rho(s^t)$ are Lagrangian multipliers of participation constraints, the resource constraint, and the non-negativity constraint of public storage, respectively.
+The variable, $M_i(s^t)$, captures the evolution of the Pareto weights, and it evolves as $M_i(s^t) = M_i(s^{t - 1}) + \mu_i(s^t)$.
+
+The first-order conditions are 
+$$
+  M_i(s^t) u'(c_i(s^t)) = \gamma(s^t) \quad \forall i,
+$$
+which implies that, for any two households, $i$ and $j$, the following holds:
+$$
+  \frac{u'(c_i(s^t))}{u'(c_j(s^t))} = \frac{M_j(s^t)}{M_i(s^t)}.
+$$
+
+From now on, I consider the case where there are two households in a village.
+Letting $x(s^t) \equiv \frac{M_2(s^t)}{M_1(s^t)}$, I obtain
+$$
+  x(s^t) = \frac{u'(c_1(s^t))}{u'(c_2(s^t))}.
+$$
+Defining, $\nu_i(s^t) = \frac{\mu_i(s^t)}{M_i(s^t)}$ for $i = 1, 2$, I obtain
+$$
+  x(s^t) = x(s^{t - 1}) \frac{M_1(s^{t - 1})}{M_2(s^{t - 1})} \frac{M_2(s^t)}{M_1(s^t)} = x(s^{t - 1}) \frac{(M_1(s^t) - \mu_1(s^t)) / M_1(s^t)}{(M_2(s^t) - \mu_2(s^t)) / M_2(s^t)} = x(s^{t - 1}) \frac{1 - \nu_1(s^t)}{1 - \nu_2(s^t)}.
+$$
+
+By taking a derivative with respect to $B(s^{t + 1})$, I get the planner's Euler equation as 
+$$
+\begin{aligned}
+  &\quad \gamma(s^t) \ge \beta (1 + r) \sum_{s^{t + 1}} Pr(s^{t + 1}) \gamma(s^{t + 1}) \\
+  &\Leftrightarrow u'(c_i(s^t)) \ge \beta (1 + r) \sum_{s^{t + 1}} Pr(s^{t + 1}) \frac{u'(c_i(s^{t + 1}))}{1 - \nu_i(s^{t + 1})},
+\end{aligned}
+$$
+where equality holds when $B(s^{t + 1}) > 0$.
+These conditions determine the policy functions, and the individual value functions can be written with three state variables, $(y, B, x)$, as follows:
+$$
+  V_i(y, B, x) = u_i(c_i(y, B, x)) + \beta \sum_{y'} Pr(y') V_i(y', B', x').
+$$
+
+The interval update rule found in @Ligon2002 holds in this context too, but interval bounds depend on public storage.
+Specifically, by defining the interval bounds, $\underline{x}(y, B)$ and $\overline{x}(y, B)$, $V_2(y, B, \underline{x}(y, B)) = U_2(y)$ and $V_1(y, B, \overline{x}(y, B)) = U_1(y)$, the relative Pareto weight $x$ is updated such that the policy function $x'(y, B, x)$ is characterized as follows:
+$$
+x'(y, B, x) = \begin{cases}
+\overline{x}(y, B) \quad &\text{if } x > \overline{x}(y, B) \\
+x \quad &\text{if } x \in [\underline{x}(y, B), \overline{x}(y, B)] \\
+\underline{x}(y, B) \quad &\text{if } x < \underline{x}(y, B).
+\end{cases}
+$$
+
+### Value of autarky with storage
+
+The expected lifetime utility of an agent $i$ under autarky with storage, at a state $y$ with private savings $b$, is
+$$
+  V_i^{aut}(y, b) = \max_{b' \ge 0} \left\{ u(y_i + (1 + r) b - b') + \beta \sum_{y'} Pr(y') V_i^{aut} (y', b') \right\}.
 $$
 The intertemporal optimality condition, that is, the (individual) Euler equation, is
 $$
-  u'(c(s, b)) \ge (1 + r) \beta \sum_j \pi^j c(j, b'(s, b)),
+  u'(c(y, b)) \ge (1 + r) \beta \sum_j Pr(y') c(y', b'(y, b)),
 $$
-where the equality holds if $\beta'(s, b) \ge 0$.
-Note that $b'(s, b) = y_i^s + (1 + r) b - c(s, b)$.
-I use the policy function iteration method to calculate $c(s, b)$.
+where the equality holds if $\beta'(y, b) \ge 0$.
+Note that $b'(y, b) = y_i + (1 + r) b - c(y, b)$.
+I use the policy function iteration method to calculate $c(y, b)$.
 
-What we are interested in is $U_i^{aut} \equiv V_i^{aut}(s, 0)$, that is, the autarky value when there is no private saving, since this is the state households consider in participation constraints.
+What we are interested in is $U_i^{aut} \equiv V_i^{aut}(y, 0)$, that is, the autarky value when there is no private saving, since this is the state households consider in participation constraints.
 
 ## Transition of the states
 
@@ -122,6 +202,7 @@ The value function of Household 2 is
 $$
   V_2(y, B, \overline{x}(y, B)) = u(c_2(y, B, \overline{x}(y, B))) + \beta \sum_{y'} Pr(y') V_2(y', B'(y, B, \overline{x}(y, B)), \overline{x}(y, B)).
 $$
+
 ### Case 5: $x < \overline{x}(y, B)$
 
 By the update rule of the relative Pareto weight, $x' = \overline{x}(y, B)$.

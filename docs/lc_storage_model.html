@@ -162,13 +162,18 @@ div.csl-indent {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#value-of-autarky-with-storage" id="toc-value-of-autarky-with-storage" class="nav-link active" data-scroll-target="#value-of-autarky-with-storage"><span class="toc-section-number">1.1</span>  Value of autarky with storage</a></li>
+  <li><a href="#set-up" id="toc-set-up" class="nav-link active" data-scroll-target="#set-up"><span class="toc-section-number">1.1</span>  Set up</a>
+  <ul class="collapse">
+  <li><a href="#model" id="toc-model" class="nav-link" data-scroll-target="#model"><span class="toc-section-number">1.1.1</span>  Model</a></li>
+  <li><a href="#value-of-autarky-with-storage" id="toc-value-of-autarky-with-storage" class="nav-link" data-scroll-target="#value-of-autarky-with-storage"><span class="toc-section-number">1.1.2</span>  Value of autarky with storage</a></li>
+  </ul></li>
   <li><a href="#transition-of-the-states" id="toc-transition-of-the-states" class="nav-link" data-scroll-target="#transition-of-the-states"><span class="toc-section-number">1.2</span>  Transition of the states</a>
   <ul class="collapse">
   <li><a href="#case-1-x-underlinexy-b" id="toc-case-1-x-underlinexy-b" class="nav-link" data-scroll-target="#case-1-x-underlinexy-b"><span class="toc-section-number">1.2.1</span>  Case 1: <span class="math inline">x &lt; \underline{x}(y, B)</span></a></li>
   <li><a href="#case-2-x-underlinexy-b" id="toc-case-2-x-underlinexy-b" class="nav-link" data-scroll-target="#case-2-x-underlinexy-b"><span class="toc-section-number">1.2.2</span>  Case 2: <span class="math inline">x = \underline{x}(y, B)</span></a></li>
   <li><a href="#case-3-x-in-underlinexy-b-overlinexy-b" id="toc-case-3-x-in-underlinexy-b-overlinexy-b" class="nav-link" data-scroll-target="#case-3-x-in-underlinexy-b-overlinexy-b"><span class="toc-section-number">1.2.3</span>  Case 3: <span class="math inline">x \in (\underline{x}(y, B), \overline{x}(y, B)</span></a></li>
   <li><a href="#case-4-x-overlinexy-b" id="toc-case-4-x-overlinexy-b" class="nav-link" data-scroll-target="#case-4-x-overlinexy-b"><span class="toc-section-number">1.2.4</span>  Case 4: <span class="math inline">x = \overline{x}(y, B)</span></a></li>
+  <li><a href="#case-5-x-overlinexy-b" id="toc-case-5-x-overlinexy-b" class="nav-link" data-scroll-target="#case-5-x-overlinexy-b"><span class="toc-section-number">1.2.5</span>  Case 5: <span class="math inline">x &lt; \overline{x}(y, B)</span></a></li>
   </ul></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="toc-section-number">1.3</span>  References</a></li>
   </ul>
@@ -194,14 +199,66 @@ div.csl-indent {
 
 </header>
 
-<section id="value-of-autarky-with-storage" class="level2" data-number="1.1">
-<h2 data-number="1.1" class="anchored" data-anchor-id="value-of-autarky-with-storage"><span class="header-section-number">1.1</span> Value of autarky with storage</h2>
-<p>The expected lifetime utility of an agent <span class="math inline">i</span> under autarky with storage, at a state <span class="math inline">s</span> with private savings <span class="math inline">b</span>, is <span class="math display">
-  V_i^{aut}(s, b) = \max_{b' \ge 0} \left\{ u(y_i^s + (1 + r) b - b') + \beta \sum_{j} \pi^j V_i^{aut} (y^j, b') \right\}.
+<p>First, I review the risk-sharing model with storage under limited commitment, following the model in <span class="citation" data-cites="abraham2018efficient">Ábrahám and Laczó (<a href="#ref-abraham2018efficient" role="doc-biblioref">2018a</a>)</span>.</p>
+<section id="set-up" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="set-up"><span class="header-section-number">1.1</span> Set up</h2>
+<section id="model" class="level3" data-number="1.1.1">
+<h3 data-number="1.1.1" class="anchored" data-anchor-id="model"><span class="header-section-number">1.1.1</span> Model</h3>
+<p>As in the basic limited commitment model, a social planner maximized the discounted sum of utilities of households, subject to resource constraints and participation constraints. But now, the social planner is allowed to <em>publicly</em> save resources across times, and also, each household can <em>privately</em> save for future periods. Here,</p>
+<ul>
+<li>public storage is observed by households, and households cannot access once they leave the risk-sharing network (hence the public storage does not affect the autarky value), and</li>
+<li>private storage is unenforceable in that social planners cannot use the private storage for resource allocation, and also, households can access the private storage under autarky too.</li>
+</ul>
+<p>Hence, the social planner solves the following maximization problem. <span class="math display">
+\begin{aligned}
+  &amp;\max_{\{c_{it}(s^t)\}} \sum_i \lambda_i \sum_{t = 1}^{\infty} \sum_{s^t} \delta^t \pi(s^t) u(c_{it}(s^t)) \\
+  \text{subject to}
+  &amp;\sum_i c_{it} (s^t) \le \sum_i y_{it}(s_t) + (1+r) B \left(s^{t - 1} \right) - B\left(s^t \right)\quad \forall s^t, \forall t \\
+  &amp;\sum_{r = t}^{\infty} \sum_{s^r} \delta^{r - t} \pi(s^r | s^t) u(c_{ir}(s^r)) \ge \tilde{U}_{i}^{aut}(s_t) \quad \forall s^t, \forall t, \forall i, \\
+  &amp;B(s^t) \ge 0 \quad \forall s^t, \forall t
+\end{aligned}
+</span> where the similar notations are used as in the case without storage, with a few exceptions that, <span class="math inline">B(s^t)</span> is a public storage at the state history <span class="math inline">s^t</span>, and <span class="math inline">\tilde{U}_i^{aut}</span> is the autarky value with private storage. Also, for simplicity, assume that the income process is i.i.d..</p>
+<p>Note that, here I do not consider the possibility of households relying on private storage while they are in the risk-sharing network. In principle, they can use private saving, and hence to the list of constraints, I would need to add intertemporal optimality conditions (that is, Euler equations of each household). However, <span class="citation" data-cites="Abraham2018">Ábrahám and Laczó (<a href="#ref-Abraham2018" role="doc-biblioref">2018b</a>)</span> shows that private storage does not matter when public asset accumulation is optimal (Proposition 4). Therefore, I can safely ignore the possibility of private storage from the constraints, which simplifies the expression and also numerical solution greatly.</p>
+<p>Using the recursive form in <span class="citation" data-cites="Marcet2019">Marcet and Marimon (<a href="#ref-Marcet2019" role="doc-biblioref">2019</a>)</span>, the Lagrangian can be written as <span class="math display">
+\begin{aligned}
+  \mathcal{L} = \sum_{t = 1}^{\infty} \sum_{s^t} \beta^t Pr(s^t) \left\{ \sum_i \left[ M_i(s^t) u(c_i(s^t)) - \mu_i(s^t) U^{aut}_i(s^t) \right] + \gamma(s^t) \left( \sum_i (y_i(s_t) - c_i(s^t)) + (1 + r) B(s^{t - 1}) - B(s^t) \right) + \rho(s^t) B(s^t) \right\},
+\end{aligned}
+</span> where <span class="math inline">\mu_i(s^t)</span>, <span class="math inline">\gamma(s^t)</span>, and <span class="math inline">\rho(s^t)</span> are Lagrangian multipliers of participation constraints, the resource constraint, and the non-negativity constraint of public storage, respectively. The variable, <span class="math inline">M_i(s^t)</span>, captures the evolution of the Pareto weights, and it evolves as <span class="math inline">M_i(s^t) = M_i(s^{t - 1}) + \mu_i(s^t)</span>.</p>
+<p>The first-order conditions are <span class="math display">
+  M_i(s^t) u'(c_i(s^t)) = \gamma(s^t) \quad \forall i,
+</span> which implies that, for any two households, <span class="math inline">i</span> and <span class="math inline">j</span>, the following holds: <span class="math display">
+  \frac{u'(c_i(s^t))}{u'(c_j(s^t))} = \frac{M_j(s^t)}{M_i(s^t)}.
+</span></p>
+<p>From now on, I consider the case where there are two households in a village. Letting <span class="math inline">x(s^t) \equiv \frac{M_2(s^t)}{M_1(s^t)}</span>, I obtain <span class="math display">
+  x(s^t) = \frac{u'(c_1(s^t))}{u'(c_2(s^t))}.
+</span> Defining, <span class="math inline">\nu_i(s^t) = \frac{\mu_i(s^t)}{M_i(s^t)}</span> for <span class="math inline">i = 1, 2</span>, I obtain <span class="math display">
+  x(s^t) = x(s^{t - 1}) \frac{M_1(s^{t - 1})}{M_2(s^{t - 1})} \frac{M_2(s^t)}{M_1(s^t)} = x(s^{t - 1}) \frac{(M_1(s^t) - \mu_1(s^t)) / M_1(s^t)}{(M_2(s^t) - \mu_2(s^t)) / M_2(s^t)} = x(s^{t - 1}) \frac{1 - \nu_1(s^t)}{1 - \nu_2(s^t)}.
+</span></p>
+<p>By taking a derivative with respect to <span class="math inline">B(s^{t + 1})</span>, I get the planner’s Euler equation as <span class="math display">
+\begin{aligned}
+  &amp;\quad \gamma(s^t) \ge \beta (1 + r) \sum_{s^{t + 1}} Pr(s^{t + 1}) \gamma(s^{t + 1}) \\
+  &amp;\Leftrightarrow u'(c_i(s^t)) \ge \beta (1 + r) \sum_{s^{t + 1}} Pr(s^{t + 1}) \frac{u'(c_i(s^{t + 1}))}{1 - \nu_i(s^{t + 1})},
+\end{aligned}
+</span> where equality holds when <span class="math inline">B(s^{t + 1}) &gt; 0</span>. These conditions determine the policy functions, and the individual value functions can be written with three state variables, <span class="math inline">(y, B, x)</span>, as follows: <span class="math display">
+  V_i(y, B, x) = u_i(c_i(y, B, x)) + \beta \sum_{y'} Pr(y') V_i(y', B', x').
+</span></p>
+<p>The interval update rule found in <span class="citation" data-cites="Ligon2002">Ligon, Thomas, and Worrall (<a href="#ref-Ligon2002" role="doc-biblioref">2002</a>)</span> holds in this context too, but interval bounds depend on public storage. Specifically, by defining the interval bounds, <span class="math inline">\underline{x}(y, B)</span> and <span class="math inline">\overline{x}(y, B)</span>, <span class="math inline">V_2(y, B, \underline{x}(y, B)) = U_2(y)</span> and <span class="math inline">V_1(y, B, \overline{x}(y, B)) = U_1(y)</span>, the relative Pareto weight <span class="math inline">x</span> is updated such that the policy function <span class="math inline">x'(y, B, x)</span> is characterized as follows: <span class="math display">
+x'(y, B, x) = \begin{cases}
+\overline{x}(y, B) \quad &amp;\text{if } x &gt; \overline{x}(y, B) \\
+x \quad &amp;\text{if } x \in [\underline{x}(y, B), \overline{x}(y, B)] \\
+\underline{x}(y, B) \quad &amp;\text{if } x &lt; \underline{x}(y, B).
+\end{cases}
+</span></p>
+</section>
+<section id="value-of-autarky-with-storage" class="level3" data-number="1.1.2">
+<h3 data-number="1.1.2" class="anchored" data-anchor-id="value-of-autarky-with-storage"><span class="header-section-number">1.1.2</span> Value of autarky with storage</h3>
+<p>The expected lifetime utility of an agent <span class="math inline">i</span> under autarky with storage, at a state <span class="math inline">y</span> with private savings <span class="math inline">b</span>, is <span class="math display">
+  V_i^{aut}(y, b) = \max_{b' \ge 0} \left\{ u(y_i + (1 + r) b - b') + \beta \sum_{y'} Pr(y') V_i^{aut} (y', b') \right\}.
 </span> The intertemporal optimality condition, that is, the (individual) Euler equation, is <span class="math display">
-  u'(c(s, b)) \ge (1 + r) \beta \sum_j \pi^j c(j, b'(s, b)),
-</span> where the equality holds if <span class="math inline">\beta'(s, b) \ge 0</span>. Note that <span class="math inline">b'(s, b) = y_i^s + (1 + r) b - c(s, b)</span>. I use the policy function iteration method to calculate <span class="math inline">c(s, b)</span>.</p>
-<p>What we are interested in is <span class="math inline">U_i^{aut} \equiv V_i^{aut}(s, 0)</span>, that is, the autarky value when there is no private saving, since this is the state households consider in participation constraints.</p>
+  u'(c(y, b)) \ge (1 + r) \beta \sum_j Pr(y') c(y', b'(y, b)),
+</span> where the equality holds if <span class="math inline">\beta'(y, b) \ge 0</span>. Note that <span class="math inline">b'(y, b) = y_i + (1 + r) b - c(y, b)</span>. I use the policy function iteration method to calculate <span class="math inline">c(y, b)</span>.</p>
+<p>What we are interested in is <span class="math inline">U_i^{aut} \equiv V_i^{aut}(y, 0)</span>, that is, the autarky value when there is no private saving, since this is the state households consider in participation constraints.</p>
+</section>
 </section>
 <section id="transition-of-the-states" class="level2" data-number="1.2">
 <h2 data-number="1.2" class="anchored" data-anchor-id="transition-of-the-states"><span class="header-section-number">1.2</span> Transition of the states</h2>
@@ -227,7 +284,7 @@ div.csl-indent {
   u(c_2(y, B, x)) + \beta \sum_{y'} Pr(y') V_2(y', B'(y, B, x), \underline{x}) = U_2^{aut}(y) \quad \left( = V_2(y, B, x) \right),
 </span> and the planner’s Euler equation is <span class="math display">
   u'(c_1(y, B, x)) \ge \beta (1 + r) \sum_{y'} Pr(y') \frac{u'(c_1(y', B'(y, B, x), \underline{x}(y, B)))}{1 - \nu_1(y', B'(y, B, x), \underline{x}(y, B))}.
-</span> Note that, in this case, <span class="math inline">B'(y, B, x)</span> does not depend on <span class="math inline">x</span>: if you look at the binding participation constraint of Household 2, since <span class="math inline">x</span> is updated to <span class="math inline">\underline{x}(y, B)</span>, the consumption <span class="math inline">c_2</span> does not depend on <span class="math inline">x</span>, and since the right-hand side of the equation does not depend on <span class="math inline">x</span>, the value function term should not depend on <span class="math inline">x</span> either. Or, an alternative way to argue this is to refer to Lemma 1 of <span class="citation" data-cites="abraham2018efficient">Ábrahám and Laczó (<a href="#ref-abraham2018efficient" role="doc-biblioref">2018</a>)</span> stating that the current <span class="math inline">x</span> is a sufficient statistic for <span class="math inline">B'</span>, given <span class="math inline">B</span> (and actually <span class="math inline">y</span> too because I consider a more general case that the aggregate income can differ across states).</p>
+</span> Note that, in this case, <span class="math inline">B'(y, B, x)</span> does not depend on <span class="math inline">x</span>: if you look at the binding participation constraint of Household 2, since <span class="math inline">x</span> is updated to <span class="math inline">\underline{x}(y, B)</span>, the consumption <span class="math inline">c_2</span> does not depend on <span class="math inline">x</span>, and since the right-hand side of the equation does not depend on <span class="math inline">x</span>, the value function term should not depend on <span class="math inline">x</span> either. Or, an alternative way to argue this is to refer to Lemma 1 of <span class="citation" data-cites="abraham2018efficient">Ábrahám and Laczó (<a href="#ref-abraham2018efficient" role="doc-biblioref">2018a</a>)</span> stating that the current <span class="math inline">x</span> is a sufficient statistic for <span class="math inline">B'</span>, given <span class="math inline">B</span> (and actually <span class="math inline">y</span> too because I consider a more general case that the aggregate income can differ across states).</p>
 <p>The value function of Household 1 is <span class="math display">
   V_1(y, B, x) = u(c_1(y, B, x)) + \beta \sum_{y'} Pr(y') V_1(y', B'(y, B, x), \underline{x}(y, B)).
 </span> Notice that this also does not depend on <span class="math inline">x</span> since <span class="math inline">c_1</span> and <span class="math inline">B'</span> do not depend on <span class="math inline">x</span>.</p>
@@ -261,7 +318,10 @@ div.csl-indent {
   u'(c_1(y, B, \overline{x}(y, B))) \ge \beta (1 + r) \sum_{y'} Pr(y') \frac{u'(c_1(y', B'(y, B, \overline{x}(y, B)), \overline{x}(y, B)))}{1 - \nu_1(y', B'(y, B, \overline{x}(y, B)), \overline{x}(y, B))}.
 </span> The value function of Household 2 is <span class="math display">
   V_2(y, B, \overline{x}(y, B)) = u(c_2(y, B, \overline{x}(y, B))) + \beta \sum_{y'} Pr(y') V_2(y', B'(y, B, \overline{x}(y, B)), \overline{x}(y, B)).
-</span> ### Case 5: <span class="math inline">x &lt; \overline{x}(y, B)</span></p>
+</span></p>
+</section>
+<section id="case-5-x-overlinexy-b" class="level3" data-number="1.2.5">
+<h3 data-number="1.2.5" class="anchored" data-anchor-id="case-5-x-overlinexy-b"><span class="header-section-number">1.2.5</span> Case 5: <span class="math inline">x &lt; \overline{x}(y, B)</span></h3>
 <p>By the update rule of the relative Pareto weight, <span class="math inline">x' = \overline{x}(y, B)</span>. Since the participation constraint of Household 1 is binding, <span class="math display">
   u(c_1(y, B, x)) + \beta \sum_{y'} Pr(y') V_1(y', B'(y, B, x), \overline{x}) = U_1^{aut}(y) \quad \left( = V_1(y, B, x) \right),
 </span> and the planner’s Euler equation is <span class="math display">
@@ -276,8 +336,17 @@ div.csl-indent {
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
+<div id="ref-Abraham2018" class="csl-entry" role="doc-biblioentry">
+Ábrahám, Árpád, and Sarolta Laczó. 2018b. <span>“Efficient Risk Sharing with Limited Commitment and Storage.”</span> <em>The Review of Economic Studies</em> 85 (3): 1389–1424.
+</div>
 <div id="ref-abraham2018efficient" class="csl-entry" role="doc-biblioentry">
-Ábrahám, Árpád, and Sarolta Laczó. 2018. <span>“Efficient Risk Sharing with Limited Commitment and Storage.”</span> <em>The Review of Economic Studies</em> 85 (3): 1389–1424.
+———. 2018a. <span>“Efficient Risk Sharing with Limited Commitment and Storage.”</span> <em>The Review of Economic Studies</em> 85 (3): 1389–1424.
+</div>
+<div id="ref-Ligon2002" class="csl-entry" role="doc-biblioentry">
+Ligon, Ethan, Jonathan P. Thomas, and Tim Worrall. 2002. <span>“<span class="nocase">Informal Insurance Arrangements with Limited Commitment: Theory and Evidence from Village Economies</span>.”</span> <em>Review of Economic Studies</em> 69 (1): 209–44. <a href="https://doi.org/10.1111/1467-937X.00204">https://doi.org/10.1111/1467-937X.00204</a>.
+</div>
+<div id="ref-Marcet2019" class="csl-entry" role="doc-biblioentry">
+Marcet, Albert, and Ramon Marimon. 2019. <span>“Recursive Contracts.”</span> <em>Econometrica</em> 87 (5): 1589–1631.
 </div>
 </div>
 </section>
